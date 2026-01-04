@@ -195,7 +195,7 @@ export class Options {
             },
             {
                 hotkey: "⌘E",
-                icon: '<svg><use xlink:href="#vditor-icon-emoji"></use></svg>',
+                icon: `<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fit="" height="1em" width="1em" preserveAspectRatio="xMidYMid meet" focusable="false"><g id="axknormal/smile-plus" stroke-width="1" fill-rule="evenodd"><path d="M14.727 7h1.211A8 8 0 1111.206.668L10.795 1.8A6.8 6.8 0 1014.727 7zm-.226-1h1.247-1.247zM5 8a1 1 0 110-2 1 1 0 010 2zm6.97 1.5a4 4 0 01-7.94 0h1.215a2.8 2.8 0 005.51 0h1.214zM11 8a1 1 0 110-2 1 1 0 010 2zm2.264-5.177V1.459h1.2v1.364h1.364v1.2h-1.364v1.363h-1.2V4.023H11.9v-1.2h1.364z" id="axk形状结合"></path></g></svg>`,
                 name: "emoji",
                 tipPosition: "ne",
             },
@@ -208,7 +208,7 @@ export class Options {
             },
             {
                 hotkey: "⌘B",
-                icon: '<svg><use xlink:href="#vditor-icon-bold"></use></svg>',
+                icon: `<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fit="" height="1em" width="1em" preserveAspectRatio="xMidYMid meet" focusable="false"><g id="afbeditor/bold" stroke-width="1" fill-rule="evenodd"><path d="M10.788 6.717c1.796.246 3.143 1.936 3.143 4.05 0 2.285-1.7 4.214-3.713 4.214H3.116V7.823H2.8v-5.47h.325V1h5.479c1.666 0 3.02 1.53 3.02 3.412a3.63 3.63 0 01-.836 2.305zm-.57 7.065c1.34 0 2.514-1.41 2.514-3.015 0-1.616-1.054-2.881-2.399-2.881h-6.78v5.896h6.665zM8.604 6.623c.936 0 1.82-1.075 1.82-2.21 0-1.2-.833-2.213-1.82-2.213H3.553v4.423h5.05z" id="afb形状结合"></path><path d="M3.1 14.981c-.33 0-.6-.322-.6-.717V1.717c0-.395.27-.717.6-.717.33 0 .6.322.6.717v12.547c0 .395-.27.717-.6.717" id="afbFill-1"></path></g></svg>`,
                 name: "bold",
                 prefix: "**",
                 suffix: "**",
@@ -216,7 +216,7 @@ export class Options {
             },
             {
                 hotkey: "⌘I",
-                icon: '<svg><use xlink:href="#vditor-icon-italic"></use></svg>',
+                icon: `<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fit="" height="1em" width="1em" preserveAspectRatio="xMidYMid meet" focusable="false"><g id="apceditor/italic" stroke-width="1" fill-rule="evenodd"><g id="apc文本编辑_倾斜-1.5px-16*16" transform="translate(2 1)"><path d="M3.646 12.8L6.754 1.2H3.5V0H11v1.2H7.996L4.888 12.8H8V14H.5v-1.2h3.146z" id="apc形状结合"></path></g></g></svg>`,
                 name: "italic",
                 prefix: "*",
                 suffix: "*",
@@ -224,7 +224,7 @@ export class Options {
             },
             {
                 hotkey: "⌘D",
-                icon: '<svg><use xlink:href="#vditor-icon-strike"></use></svg>',
+                icon: `<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fit="" height="1em" width="1em" preserveAspectRatio="xMidYMid meet" focusable="false"><g id="ayleditor/strike" stroke-width="1" fill-rule="evenodd"><path d="M6 8.6H.894V7.4H3.5c-.62-.67-1-1.565-1-2.55v-.1A3.75 3.75 0 016.25 1h3.5a3.75 3.75 0 013.742 3.5h-1.204A2.55 2.55 0 009.75 2.2h-3.5A2.55 2.55 0 003.7 4.75v.1A2.55 2.55 0 006.25 7.4h8.85v1.2h-2.6a3.75 3.75 0 01-2.75 6.3h-3.5A3.75 3.75 0 012.503 11h1.201a2.55 2.55 0 002.546 2.7h3.5a2.55 2.55 0 000-5.1h-3.5a2.58 2.58 0 00-.25.012V8.6z" id="ayl形状结合"></path></g></svg>`,
                 name: "strike",
                 prefix: "~~",
                 suffix: "~~",
@@ -232,7 +232,7 @@ export class Options {
             },
             {
                 hotkey: "⌘K",
-                icon: '<svg><use xlink:href="#vditor-icon-link"></use></svg>',
+                icon: `<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fit="" height="1em" width="1em" preserveAspectRatio="xMidYMid meet" focusable="false"><g id="apveditor/link-insert" stroke-width="1" fill-rule="evenodd"><path d="M12.253 4.13h-1.2v-1a2.8 2.8 0 00-5.6 0v4a2.8 2.8 0 002.8 2.8v1.2a4 4 0 01-4-4v-4a4 4 0 018 0v1zm-8 8h1.2v1a2.8 2.8 0 005.6 0v-4a2.8 2.8 0 00-2.8-2.8v-1.2a4 4 0 014 4v4a4 4 0 01-8 0v-1z" id="apv形状结合" transform="rotate(46 8.253 8.13)"></path></g></svg>`,
                 name: "link",
                 prefix: "[",
                 suffix: "](https://)",
@@ -258,7 +258,7 @@ export class Options {
             },
             {
                 hotkey: "⌘J",
-                icon: '<svg><use xlink:href="#vditor-icon-check"></use></svg>',
+                icon: `<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fit="" height="1em" width="1em" preserveAspectRatio="xMidYMid meet" focusable="false"><g id="apyeditor/list-check" stroke-width="1" fill-rule="evenodd"><path d="M2 2.551L3.576.976l.848.848L2 4.25.576 2.824l.848-.848L2 2.55zm0 5.425L3.576 6.4l.848.849L2 9.673.576 8.249l.848-.849.576.576zm0 5.4L3.576 11.8l.848.849L2 15.073.576 13.649l.848-.849.576.576zM5.663 2.6a.6.6 0 110-1.2H15.4a.6.6 0 010 1.2H5.663zm0 11.8a.6.6 0 010-1.2H15.4a.6.6 0 010 1.2H5.663zm0-6.2a.6.6 0 110-1.2H15.4a.6.6 0 010 1.2H5.663z" id="apy合并形状"></path></g></svg>`,
                 name: "check",
                 prefix: "* [ ] ",
                 tipPosition: "n",
@@ -281,21 +281,21 @@ export class Options {
             },
             {
                 hotkey: "⌘;",
-                icon: '<svg><use xlink:href="#vditor-icon-quote"></use></svg>',
+                icon: `<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fit="" height="1em" width="1em" preserveAspectRatio="xMidYMid meet" focusable="false"><g id="aezeditor/blockquote" stroke-width="1" fill-rule="evenodd"><path d="M9.499 13.753v-5.5H15v5.5H9.499zm1-4.5v3.5H14v-3.5h-3.501zm-9.5 4.5v-5.5H6.5v5.5H.999zm1-4.5v3.5H5.5v-3.5H1.999zM6.5 2.222v1.2c-.074-.004-.145-.022-.22-.022a4.12 4.12 0 00-4.115 4.115c0 .253.031.498.075.738H1C.965 8.01.966 7.768.966 7.515A5.32 5.32 0 016.28 2.2c.075 0 .145.019.22.022zm8.5 0v1.2c-.074-.004-.145-.022-.22-.022a4.12 4.12 0 00-4.115 4.115c0 .253.031.498.075.738H9.5c-.035-.243-.034-.485-.034-.738A5.32 5.32 0 0114.78 2.2c.075 0 .145.019.22.022z" id="aez形状结合"></path></g></svg>`,
                 name: "quote",
                 prefix: "> ",
                 tipPosition: "n",
             },
             {
                 hotkey: "⇧⌘H",
-                icon: '<svg><use xlink:href="#vditor-icon-line"></use></svg>',
+                icon: `<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fit="" height="1em" width="1em" preserveAspectRatio="xMidYMid meet" focusable="false"><g id="anueditor/horizontal-line" stroke-width="1" fill-rule="evenodd"><path id="anu矩形" d="M1.5 8h13v1h-13z"></path></g></svg>`,
                 name: "line",
                 prefix: "---",
                 tipPosition: "n",
             },
             {
                 hotkey: "⌘U",
-                icon: '<svg><use xlink:href="#vditor-icon-code"></use></svg>',
+                icon: `<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fit="" height="1em" width="1em" preserveAspectRatio="xMidYMid meet" focusable="false"><g id="ahqeditor/code" stroke-width="1" fill-rule="evenodd"><path d="M4.875 2.702L1.43 8.032l3.446 5.332-1.008.652L0 8.033l3.867-5.982 1.008.651zm6.25 10.662l3.446-5.33-3.446-5.332 1.008-.651L16 8.033l-3.867 5.983-1.008-.652zM8.852 1.402l1.172.257L7.21 14.53l-1.172-.256L8.852 1.402z" id="ahq形状结合"></path></g></svg>`,
                 name: "code",
                 prefix: "```",
                 suffix: "\n```",
@@ -337,7 +337,7 @@ export class Options {
             },
             {
                 hotkey: "⌘M",
-                icon: '<svg><use xlink:href="#vditor-icon-table"></use></svg>',
+                icon: `<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fit="" height="1em" width="1em" preserveAspectRatio="xMidYMid meet" focusable="false"><g id="ayxeditor/table-border-all" stroke-width="1" fill-rule="evenodd"><path d="M2.2 7.4h5.2V2.2H2.2v5.2zm0 1.2v5.2h5.2V8.6H2.2zm11.6-1.2V2.2H8.6v5.2h5.2zm0 1.2H8.6v5.2h5.2V8.6zM2 1h12a1 1 0 011 1v12a1 1 0 01-1 1H2a1 1 0 01-1-1V2a1 1 0 011-1z" id="ayx形状结合"></path></g></svg>`,
                 name: "table",
                 prefix: "| col1",
                 suffix:
