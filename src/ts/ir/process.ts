@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {Constants} from "../constants";
 import {getMarkdown} from "../markdown/getMarkdown";
 import {removeCurrentToolbar} from "../toolbar/setToolbar";
@@ -105,6 +106,30 @@ const removeInline = (range: Range, vditor: IVditor, type: string) => {
     }
 };
 
+const removeMultipleInIne = (range: Range, vditor: IVditor, type: string) => {
+    const contents = range.cloneContents();
+    if (contents.children.length > 1) {
+        let element: any = range.startContainer;
+        for (let i = 0; i < contents.children.length; i++) {
+            const inlineElement = hasClosestByAttribute(element, "data-type", type) as HTMLElement;
+            if (inlineElement) {
+                const parentElement = inlineElement.closest('p').nextElementSibling as any;
+                if (parentElement) {
+                    element = parentElement.children[0];
+                }
+                inlineElement.firstElementChild.remove();
+                inlineElement.lastElementChild.remove();
+                range.insertNode(document.createElement("wbr"));
+                const tempElement = document.createElement("div");
+                tempElement.innerHTML = vditor.lute.SpinVditorIRDOM(inlineElement.outerHTML);
+                inlineElement.outerHTML = tempElement.firstElementChild.innerHTML.trim();
+            }
+        }
+    } else {
+        removeInline(range, vditor, type);
+    }
+}
+
 export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: string, suffix: string) => {
     const range = getEditorRange(vditor);
     const commandName = actionBtn.getAttribute("data-type");
@@ -134,13 +159,13 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
                 }
             }
         } else if (commandName === "italic") {
-            removeInline(range, vditor, "em");
+            removeMultipleInIne(range, vditor, "em");
         } else if (commandName === "bold") {
-            removeInline(range, vditor, "strong");
+            removeMultipleInIne(range, vditor, "strong");
         } else if (commandName === "strike") {
-            removeInline(range, vditor, "s");
+            removeMultipleInIne(range, vditor, "s");
         } else if (commandName === "inline-code") {
-            removeInline(range, vditor, "code");
+            removeMultipleInIne(range, vditor, "code");
         } else if (commandName === "check" || commandName === "list" || commandName === "ordered-list") {
             listToggle(vditor, range, commandName);
             useHighlight = false;
@@ -182,6 +207,7 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
         } else if (commandName === "italic" || commandName === "bold" || commandName === "strike"
             || commandName === "inline-code" || commandName === "code" || commandName === "table") {
             let html;
+            let muitiple = false;
             if (range.toString() === "") {
                 html = `${prefix}<wbr>${suffix}`;
             } else {
@@ -190,17 +216,38 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
                 } else if (commandName === "table") {
                     html = `${prefix}${range.toString()}<wbr>${suffix}`;
                 } else {
-                    html = `${prefix}${range.toString()}${suffix}<wbr>`;
+                    const contents = range.cloneContents();
+                    if (contents.children.length > 1) {
+                        muitiple = true;
+                        let element: any = range.startContainer;
+                        if (element.nodeType === 3) {
+                            element = element.parentElement;
+                        }
+                        const parentElement = element.closest('.vditor-reset');
+                        for (let i = 0; i < contents.children.length; i++) {
+                            if (!element.innerText.startsWith(prefix) || !element.innerText.endsWith(suffix)) {
+                                element.innerHTML = `${prefix}${element.innerText}${suffix}<wbr>`;
+                            }
+                            element = element.nextElementSibling as any;
+                        }
+                        range.selectNode(parentElement);
+                    } else {
+                        html = `${prefix}${range.toString()}${suffix}<wbr>`;
+                    }
                 }
-                range.deleteContents();
+                if (!muitiple) {
+                    range.deleteContents();
+                }
             }
             if (commandName === "table" || commandName === "code") {
                 html = "\n" + html + "\n\n";
             }
 
-            const spanElement = document.createElement("span");
-            spanElement.innerHTML = html;
-            range.insertNode(spanElement);
+            if (!muitiple) {
+                const spanElement = document.createElement("span");
+                spanElement.innerHTML = html;
+                range.insertNode(spanElement);
+            }
             input(vditor, range);
 
             if (commandName === "table") {
