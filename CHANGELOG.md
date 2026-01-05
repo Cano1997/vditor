@@ -2,6 +2,10 @@
 
 ### 升级
 
+* 3.12
+  * 支持多行加粗、斜体
+  * 工具栏按钮图标替换
+
 * 3.11
   * 添加 options.preview.markdown.sup
   * 添加 options.preview.markdown.sub
