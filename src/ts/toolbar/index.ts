@@ -1,44 +1,56 @@
-import {getEventName} from "../util/compatibility";
-import {Both} from "./Both";
-import {Br} from "./Br";
-import {CodeTheme} from "./CodeTheme";
-import {ContentTheme} from "./ContentTheme";
-import {Counter} from "./Counter";
-import {Custom} from "./Custom";
-import {Devtools} from "./Devtools";
-import {Divider} from "./Divider";
-import {EditMode} from "./EditMode";
-import {Emoji} from "./Emoji";
-import {Export} from "./Export";
-import {Fullscreen} from "./Fullscreen";
-import {Headings} from "./Headings";
-import {Help} from "./Help";
-import {Indent} from "./Indent";
-import {Info} from "./Info";
-import {InsertAfter} from "./InsertAfter";
-import {InsertBefore} from "./InsertBefore";
-import {MenuItem} from "./MenuItem";
-import {Outdent} from "./Outdent";
-import {Outline} from "./Outline";
-import {Preview} from "./Preview";
-import {Record} from "./Record";
-import {Redo} from "./Redo";
-import {toggleSubMenu} from "./setToolbar";
-import {Undo} from "./Undo";
-import {Upload} from "./Upload";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { getEventName } from "../util/compatibility";
+import { Both } from "./Both";
+import { Br } from "./Br";
+import { CodeTheme } from "./CodeTheme";
+import { ContentTheme } from "./ContentTheme";
+import { Counter } from "./Counter";
+import { Custom } from "./Custom";
+import { Devtools } from "./Devtools";
+import { Divider } from "./Divider";
+import { EditMode } from "./EditMode";
+import { Emoji } from "./Emoji";
+import { Export } from "./Export";
+import { Fullscreen } from "./Fullscreen";
+import { Headings } from "./Headings";
+import { Help } from "./Help";
+import { Indent } from "./Indent";
+import { Info } from "./Info";
+import { InsertAfter } from "./InsertAfter";
+import { InsertBefore } from "./InsertBefore";
+import { MenuItem } from "./MenuItem";
+import { Outdent } from "./Outdent";
+import { Outline } from "./Outline";
+import { Preview } from "./Preview";
+import { Record } from "./Record";
+import { Redo } from "./Redo";
+import { toggleSubMenu } from "./setToolbar";
+import { Undo } from "./Undo";
+import { Upload } from "./Upload";
 
 export class Toolbar {
     public elements: { [key: string]: HTMLElement };
     public element: HTMLElement;
+    public originToolbar: IMenuItem[];
 
     constructor(vditor: IVditor) {
         const options = vditor.options;
         this.elements = {};
-
         this.element = document.createElement("div");
         this.element.className = "vditor-toolbar";
+        this.originToolbar = [...vditor.options.toolbar as IMenuItem[]];
 
-        options.toolbar.forEach((menuItem: IMenuItem, i: number) => {
+        if (vditor.options.toolbarConfig.ellipsis) {
+            this.element.className += " vditor-toolbar--ellipsis";
+            this.calcEllipsisToolbar(vditor);
+        } else { 
+            this.initToolbar(vditor, options.toolbar as IMenuItem[]);
+        }
+    }
+
+    public initToolbar(vditor: IVditor, toolbar: IMenuItem[]) {
+        this.element.innerHTML = '';
+        toolbar.forEach((menuItem: IMenuItem, i: number) => {
             const itemElement = this.genItem(vditor, menuItem, i);
             this.element.appendChild(itemElement);
             if (menuItem.toolbar) {
@@ -47,15 +59,23 @@ export class Toolbar {
                 panelElement.addEventListener(getEventName(), (event) => {
                     panelElement.style.display = "none";
                 });
-                menuItem.toolbar.forEach((subMenuItem: IMenuItem, subI: number) => {
-                    subMenuItem.level = 2;
-                    panelElement.appendChild(this.genItem(vditor, subMenuItem, i + subI));
-                });
+                menuItem.toolbar.forEach(
+                    (subMenuItem: IMenuItem, subI: number) => {
+                        subMenuItem.level = 2;
+                        panelElement.appendChild(
+                            this.genItem(vditor, subMenuItem, i + subI)
+                        );
+                    }
+                );
                 itemElement.appendChild(panelElement);
-                toggleSubMenu(vditor, panelElement, itemElement.children[0], 2);
+                toggleSubMenu(
+                    vditor,
+                    panelElement,
+                    itemElement.children[0],
+                    2
+                );
             }
         });
-
         if (vditor.options.toolbarConfig.hide) {
             this.element.classList.add("vditor-toolbar--hide");
         }
@@ -67,6 +87,23 @@ export class Toolbar {
             vditor.counter = new Counter(vditor);
             this.element.appendChild(vditor.counter.element);
         }
+    }
+
+    public calcEllipsisToolbar(vditor: IVditor) {
+        const parentElement = vditor.element;
+        const totalWidth = parentElement.offsetWidth - 8;
+        const toolbars = [...this.originToolbar].filter((x: any) => x.name !== "|");
+        const count = Math.floor(totalWidth / 32) -1;
+        const moreToolbar = toolbars.splice(count, toolbars.length - count);
+        if (moreToolbar.length) {
+            const more = {
+                name: "more",
+                icon: '<svg><use xlink:href="#vditor-icon-more"></use></svg>',
+                toolbar: moreToolbar,
+            }
+            toolbars.push(more);
+        }
+        this.initToolbar(vditor, toolbars);
     }
 
     public updateConfig(vditor: IVditor, options: IToolbarConfig) {

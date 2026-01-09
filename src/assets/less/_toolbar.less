@@ -2,8 +2,15 @@
   &-toolbar {
     background-color: var(--toolbar-background-color);
     border-bottom: 1px solid var(--border-color);
-    padding: 0 5px;
+    padding: 4px;
     line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &.vditor-toolbar--ellipsis {
+      justify-content: flex-start;
+    }
 
     &--pin {
       position: sticky;

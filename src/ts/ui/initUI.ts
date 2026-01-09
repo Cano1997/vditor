@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {Constants} from "../constants";
 import {setEditMode} from "../toolbar/EditMode";
 import {hidePanel} from "../toolbar/setToolbar";
@@ -117,15 +118,6 @@ export const setPadding = (vditor: IVditor) => {
     const padding = (vditor.ir.element.parentElement.clientWidth
       - vditor.options.preview.maxWidth) / 2;
     vditor.ir.element.style.padding = `10px ${Math.max(minPadding, padding)}px`;
-  }
-
-  if (vditor.preview.element.style.display !== "block") {
-    vditor.toolbar.element.style.paddingLeft = Math.max(5,
-      parseInt(vditor[vditor.currentMode].element.style.paddingLeft || "0", 10) +
-      (vditor.options.outline.position === "left" ? vditor.outline.element.offsetWidth : 0)) + "px";
-  } else {
-    vditor.toolbar.element.style.paddingLeft = (5 +
-      (vditor.options.outline.position === "left" ? vditor.outline.element.offsetWidth : 0)) + "px";
   }
 };
 

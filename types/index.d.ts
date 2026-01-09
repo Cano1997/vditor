@@ -639,6 +639,8 @@ interface IToolbarConfig {
     hide?: boolean;
     /** 是否固定工具栏。默认值: false */
     pin?: boolean;
+    // 是否更多模式
+    ellipsis?: boolean;
 }
 
 /** @link https://ld246.com/article/1549638745630#options-comment */
@@ -844,6 +846,8 @@ interface IVditor {
         elements?: {[key: string]: HTMLElement},
         element?: HTMLElement,
         updateConfig(vditor: IVditor, options: IToolbarConfig): void,
+        calcEllipsisToolbar(vditor: IVditor): void,
+        initToolbar(vditor: IVditor, toolbar: IMenuItem[]): void,
     };
     preview?: {
         element: HTMLElement,
