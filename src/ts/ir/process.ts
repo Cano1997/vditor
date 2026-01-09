@@ -79,18 +79,38 @@ export const processAfterRender = (vditor: IVditor, options = {
 
 export const processHeading = (vditor: IVditor, value: string) => {
     const range = getEditorRange(vditor);
-    const headingElement = hasClosestBlock(range.startContainer) || range.startContainer as HTMLElement;
-    if (headingElement) {
-        const headingMarkerElement = headingElement.querySelector(".vditor-ir__marker--heading");
-        if (headingMarkerElement) {
-            headingMarkerElement.innerHTML = value;
-        } else {
-            headingElement.insertAdjacentText("afterbegin", value);
-            range.selectNodeContents(headingElement);
-            range.collapse(false);
+    const contents = range.cloneContents();
+    if (contents.children.length > 1) {
+        let element: any = hasClosestBlock(range.startContainer) || range.startContainer;
+        const parentElement = element.closest('.vditor-reset');
+        for (let i = 0; i < contents.children.length; i++) {
+            if (element) {
+                const headingMarkerElement = element.querySelector(".vditor-ir__marker--heading");
+                if (headingMarkerElement) {
+                    headingMarkerElement.innerHTML = value;
+                } else {
+                    element.insertAdjacentText("afterbegin", value);
+                }
+            }
+            element = element.nextElementSibling as any;
         }
-        input(vditor, range.cloneRange());
         highlightToolbarIR(vditor);
+        range.selectNode(parentElement);
+        input(vditor, range);
+    } else {
+        const headingElement = hasClosestBlock(range.startContainer) || range.startContainer as HTMLElement;
+        if (headingElement) {
+            const headingMarkerElement = headingElement.querySelector(".vditor-ir__marker--heading");
+            if (headingMarkerElement) {
+                headingMarkerElement.innerHTML = value;
+            } else {
+                headingElement.insertAdjacentText("afterbegin", value);
+                range.selectNodeContents(headingElement);
+                range.collapse(false);
+            }
+            input(vditor, range.cloneRange());
+            highlightToolbarIR(vditor);
+        }
     }
 };
 
