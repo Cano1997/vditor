@@ -28,7 +28,10 @@ export class Hint {
         }
         let currentLineValue: string;
         const range = getSelection().getRangeAt(0);
-        currentLineValue = range.startContainer.textContent.substring(0, range.startOffset) || "";
+        const textContent = range.startContainer.textContent;
+        if (!textContent.includes(' ')) {
+            currentLineValue = range.startContainer.textContent.substring(0, range.startOffset) || "";
+        }
 
         const key = this.getKey(currentLineValue, vditor.options.hint.extend);
 
@@ -212,7 +215,11 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
         }
 
         const currentHintElement: HTMLElement = this.element.querySelector(".vditor-hint--current");
-
+        if (event.code === 'Space') {
+            this.element.style.display = "none";
+            this.splitChar = '';
+            return false;
+        }
         if (event.key === "ArrowDown") {
             event.preventDefault();
             event.stopPropagation();
