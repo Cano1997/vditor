@@ -251,6 +251,9 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
     }
 
     private getKey(currentLineValue: string, extend: IHintExtend[]) {
+        if (typeof currentLineValue !== "string") {
+            return;
+        }
         this.lastIndex = -1;
         this.splitChar = "";
         extend.forEach((item) => {

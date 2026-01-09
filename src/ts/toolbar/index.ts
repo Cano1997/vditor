@@ -32,6 +32,7 @@ export class Toolbar {
     public elements: { [key: string]: HTMLElement };
     public element: HTMLElement;
     public originToolbar: IMenuItem[];
+    public offsetWidth: number;
 
     constructor(vditor: IVditor) {
         const options = vditor.options;
@@ -39,6 +40,7 @@ export class Toolbar {
         this.element = document.createElement("div");
         this.element.className = "vditor-toolbar";
         this.originToolbar = [...vditor.options.toolbar as IMenuItem[]];
+        this.offsetWidth = vditor.options.toolbarConfig.offsetWidth || 8;
 
         if (vditor.options.toolbarConfig.ellipsis) {
             this.element.className += " vditor-toolbar--ellipsis";
@@ -91,7 +93,7 @@ export class Toolbar {
 
     public calcEllipsisToolbar(vditor: IVditor) {
         const parentElement = vditor.element;
-        const totalWidth = parentElement.offsetWidth - 8;
+        const totalWidth = parentElement.offsetWidth - this.offsetWidth;
         const toolbars = [...this.originToolbar].filter((x: any) => x.name !== "|");
         const count = Math.floor(totalWidth / 32) -1;
         const moreToolbar = toolbars.splice(count, toolbars.length - count);

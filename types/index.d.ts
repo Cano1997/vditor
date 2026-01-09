@@ -641,6 +641,7 @@ interface IToolbarConfig {
     pin?: boolean;
     // 是否更多模式
     ellipsis?: boolean;
+    offsetWidth?: number;
 }
 
 /** @link https://ld246.com/article/1549638745630#options-comment */
