@@ -297,6 +297,20 @@ class Vditor extends VditorMethod {
         }
     }
 
+    public refresh() {
+        const range = getEditorRange(this.vditor);
+        range.selectNode(this.vditor[this.vditor.currentMode].element);
+        if (this.vditor.currentMode === "sv") {
+            this.vditor.sv.preventInput = true;
+            inputEvent(this.vditor);
+        } else if (this.vditor.currentMode === "wysiwyg") {
+            input(this.vditor, getSelection().getRangeAt(0));
+        } else if (this.vditor.currentMode === "ir") {
+            this.vditor.ir.preventInput = true;
+            irInput(this.vditor, range, true);
+        }
+    }
+
     /** 在焦点处插入 Markdown */
     public insertMD(md: string) {
         // https://github.com/Vanessa219/vditor/issues/1640
