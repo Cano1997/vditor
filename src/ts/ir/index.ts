@@ -21,6 +21,7 @@ import {highlightToolbarIR} from "./highlightToolbarIR";
 import {input} from "./input";
 import {processAfterRender, processHint} from "./process";
 import {hidePanel} from "../toolbar/setToolbar";
+import { previewImage } from "../preview/image";
 
 class IR {
     public range: Range;
@@ -149,6 +150,15 @@ class IR {
                 if (linkElement) {
                     range.selectNode(linkElement);
                     setSelectionFocus(range);
+                }
+                // 只有聚焦的图片点击才预览
+                const imageNode = hasClosestByClassName(event.target, "vditor-ir__node--expand");
+                if (imageNode) {
+                    if (vditor.options.image.preview) {
+                        vditor.options.image.preview(event.target)
+                    } else if (vditor.options.image.isPreview) {
+                        previewImage(event.target as unknown as HTMLImageElement, vditor.options.lang, vditor.options.theme);
+                    }
                 }
             }
             // 打开链接
