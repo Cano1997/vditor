@@ -14,7 +14,7 @@ export const processHint = (vditor: IVditor) => {
     const startContainer = getEditorRange(vditor).startContainer;
     // 代码块语言提示
     const preBeforeElement = hasClosestByAttribute(startContainer, "data-type", "code-block-info");
-    if (preBeforeElement) {
+    if (preBeforeElement && !vditor[vditor.currentMode].preventInput) {
         if (preBeforeElement.textContent.replace(Constants.ZWSP, "") === "" && vditor.hint.recentLanguage) {
             preBeforeElement.textContent = Constants.ZWSP + vditor.hint.recentLanguage;
             const range = getEditorRange(vditor);
