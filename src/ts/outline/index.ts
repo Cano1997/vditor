@@ -28,11 +28,13 @@ export class Outline {
         const btnElement = vditor.toolbar.elements.outline?.firstElementChild;
         if (show && window.innerWidth >= Constants.MOBILE_WIDTH) {
             this.element.style.display = "block";
+            vditor.element.classList.add("show-outline");
             this.render(vditor);
             btnElement?.classList.add("vditor-menu--current");
         } else {
             this.element.style.display = "none";
             btnElement?.classList.remove("vditor-menu--current");
+            vditor.element.classList.remove("show-outline");
         }
         if (focus && getSelection().rangeCount > 0) {
             const range = getSelection().getRangeAt(0);

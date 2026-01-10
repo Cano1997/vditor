@@ -393,7 +393,7 @@ export class Options {
             },
             {
                 icon:
-                    '<svg><use xlink:href="#vditor-icon-align-center"></use></svg>',
+                    '<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fit="" height="1em" width="1em" preserveAspectRatio="xMidYMid meet" focusable="false"><g id="bbjnavigation/toc" stroke-width="1" fill-rule="evenodd"><path d="M3.7 1a.6.6 0 110 1.2L3 2.199V2.2H1.2l-.001 5.199L6.4 7.4a.6.6 0 110 1.2l-5.201-.001L1.2 13.8h5.2a.6.6 0 010 1.2H1a1 1 0 01-1-1V2a1 1 0 011-1h2.7zm11.7 12.8a.6.6 0 010 1.2H9.3a.6.6 0 010-1.2h6.1zm0-6.4a.6.6 0 010 1.2H9.3a.6.6 0 110-1.2h6.1zm0-6.4a.6.6 0 010 1.2H6.6a.6.6 0 110-1.2h8.8z" id="bbj形状结合"></path></g></svg>',
                 name: "outline",
                 tipPosition: "nw",
             },
