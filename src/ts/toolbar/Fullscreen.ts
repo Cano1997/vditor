@@ -32,6 +32,9 @@ export class Fullscreen extends MenuItem {
                 if (vditor.counter) {
                     vditor.counter.element.className = vditor.counter.element.className.replace("__s", "__n");
                 }
+                if (typeof vditor.options.unFullScreen === 'function') {
+                    vditor.options.unFullScreen();
+                }
             } else {
                 if (!menuItem.level) {
                     this.innerHTML = '<svg><use xlink:href="#vditor-icon-contract"></use></svg>';
@@ -47,6 +50,9 @@ export class Fullscreen extends MenuItem {
                 });
                 if (vditor.counter) {
                     vditor.counter.element.className = vditor.counter.element.className.replace("__n", "__s");
+                }
+                if (typeof vditor.options.fullScreen === 'function') {
+                    vditor.options.fullScreen();
                 }
             }
 

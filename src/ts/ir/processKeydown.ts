@@ -236,3 +236,15 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
     return false;
 };
+
+export const removeBlockElement = (vditor: IVditor, event: KeyboardEvent) => {
+    // 删除有子工具栏的块
+    if (matchHotKey("⇧⌘X", event)) {
+        const itemElement: HTMLElement = vditor.ir.popover.querySelector('[data-type="remove"]');
+        if (itemElement) {
+            itemElement.click();
+        }
+        event.preventDefault();
+        return true;
+    }
+};

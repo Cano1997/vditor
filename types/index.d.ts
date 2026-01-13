@@ -818,8 +818,16 @@ interface IOptions {
     /** 编辑器中未选中文字后触发 */
     unSelect?(): void;
 
+    /** 全屏模式 */
+    fullScreen?(): void;
+
+    /** 取消全屏模式 */
+    unFullScreen?(): void;
+
     /** 对 wysiwyg 模式下的工具栏进行自定义 */
-    customWysiwygToolbar?(type: TWYSISYGToolbar, element: HTMLElement): void
+    customWysiwygToolbar?(type: TWYSISYGToolbar, element: HTMLElement): void;
+
+    customIrToolbar?(type: TWYSISYGToolbar, element: HTMLElement): void;
 }
 
 interface IEChart {
@@ -909,6 +917,9 @@ interface IVditor {
     ir?: {
         range: Range,
         element: HTMLPreElement,
+        selectPopover: HTMLDivElement,
+        popover: HTMLDivElement,
+        afterRenderTimeoutId: number,
         composingLock: boolean,
         preventInput: boolean,
         processTimeoutId: number,
