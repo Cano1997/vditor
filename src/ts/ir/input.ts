@@ -101,9 +101,9 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false, event?
     }
 
     // 清除浏览器自带的样式
-    blockElement.querySelectorAll("[style]").forEach((item) => {
-        item.removeAttribute("style");
-    });
+    // blockElement.querySelectorAll("[style]").forEach((item) => {
+    //     item.removeAttribute("style");
+    // });
 
     if (blockElement.getAttribute("data-type") === "link-ref-defs-block") {
         // 修改链接引用
