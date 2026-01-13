@@ -26,6 +26,9 @@ import { previewImage } from "../preview/image";
 class IR {
     public range: Range;
     public element: HTMLPreElement;
+    public popover: HTMLDivElement;
+    public selectPopover: HTMLDivElement;
+    public afterRenderTimeoutId: number;
     public processTimeoutId: number;
     public hlToolbarTimeoutId: number;
     public composingLock: boolean = false;
@@ -36,9 +39,17 @@ class IR {
         divElement.className = "vditor-ir";
 
         divElement.innerHTML = `<pre class="vditor-reset" placeholder="${vditor.options.placeholder}"
- contenteditable="true" spellcheck="false"></pre>`;
+ contenteditable="true" spellcheck="false"></pre>
+ <div class="vditor-panel vditor-panel--none"></div>
+<div class="vditor-panel vditor-panel--none">
+    <button type="button" aria-label="${window.VditorI18n.comment}" class="vditor-icon vditor-tooltipped vditor-tooltipped__n">
+        <svg><use xlink:href="#vditor-icon-comment"></use></svg>
+    </button>
+</div>`;
 
         this.element = divElement.firstElementChild as HTMLPreElement;
+        this.popover = divElement.firstElementChild.nextElementSibling as HTMLDivElement;
+        this.selectPopover = divElement.lastElementChild as HTMLDivElement;
 
         this.bindEvent(vditor);
 
