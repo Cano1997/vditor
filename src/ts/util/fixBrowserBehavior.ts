@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {Constants} from "../constants";
 import {input as IRInput} from "../ir/input";
 import {processAfterRender} from "../ir/process";
@@ -197,25 +198,33 @@ export const listToggle = (vditor: IVditor, range: Range, type: string, cancel =
     } else {
         if (!itemElement) {
             // 添加
-            let blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
+            const nodes = getRangeNodes(range);
+            let blockElement = nodes[0];
             if (!blockElement) {
                 vditor[vditor.currentMode].element.querySelector("wbr").remove();
                 blockElement = vditor[vditor.currentMode].element.querySelector("p");
                 blockElement.innerHTML = "<wbr>";
             }
-            if (type === "check") {
+            const items: string[] = [];
+            nodes.forEach(node => {
+                if (type === "check") {
+                    items.push(`<li class="vditor-task"><input type="checkbox" /> ${node.innerHTML}</li>`);
+                } else if (type === "list") {
+                    items.push(`<li>${node.innerHTML}</li>`);
+                } else if (type === "ordered-list") {
+                    items.push(`<li>${node.innerHTML}</li>`);
+                }
+            })
+            if (['check', 'list'].includes(type)) {
                 blockElement.insertAdjacentHTML("beforebegin",
-                    `<ul data-block="0"><li class="vditor-task"><input type="checkbox" /> ${blockElement.innerHTML}</li></ul>`);
-                blockElement.remove();
-            } else if (type === "list") {
-                blockElement.insertAdjacentHTML("beforebegin",
-                    `<ul data-block="0"><li>${blockElement.innerHTML}</li></ul>`);
-                blockElement.remove();
+                `<ul data-block="0">${items.join('')}</ul>`);
             } else if (type === "ordered-list") {
                 blockElement.insertAdjacentHTML("beforebegin",
-                    `<ol data-block="0"><li>${blockElement.innerHTML}</li></ol>`);
-                blockElement.remove();
+                    `<ol data-block="0">${items.join('')}</ol>`);
             }
+            nodes.forEach(node => {
+                node.remove();
+            })
         } else {
             // 切换
             if (type === "check") {
@@ -1567,3 +1576,18 @@ const walk = (el: Element, fn: (el: Element) => boolean | void) => {
             walk(el.children[i], fn);
         }
 };
+
+export const getRangeNodes = (range: Range): HTMLElement[] => {
+    const contents = range.cloneContents();
+    let element: any = hasClosestByAttribute(range.startContainer, "data-block", "0");
+    if (contents.children.length > 1) {
+        const result = [];
+        for (let i = 0; i < contents.children.length; i++) {
+            result.push(element);
+            element = element.nextElementSibling as any;
+        }
+        return result;
+    } else {
+        return [element];
+    }
+}
