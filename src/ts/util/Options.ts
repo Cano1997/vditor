@@ -239,6 +239,65 @@ export class Options {
                 tipPosition: "n",
             },
             {
+                icon: `<svg
+                    viewBox='0 0 16 16'
+                    xmlns='http://www.w3.org/2000/svg'
+                    height='1em'
+                    width='1em'
+                    preserveAspectRatio='xMidYMid meet'
+                    focusable='false'
+                >
+                    <g id='ahveditor/color-tt' stroke-width='1' fill-rule='evenodd'>
+                    <path
+                        id='ahvsecondary-color'
+                        d='M1.999 15.011h11.998V13.81H1.999z'
+                        fill='#FF0100'
+                    ></path>
+                    <path
+                        d='M6.034 7.59h4.104L8.086 2.297 6.034 7.59zm-.465 1.2l-1.437 3.707H2.845L7.301 1h1.287l-.001.004h.286l4.454 11.492h-1.288L10.603 8.79H5.569z'
+                        id='ahv合并形状'
+                    ></path>
+                    </g>
+                </svg>`,
+                name: "color",
+                tipPosition: "ne",
+                tip: '字体颜色',
+                className: 'vditor-toolbar__color',
+            },
+            {
+                icon: `<svg
+                    viewBox='0 0 16 16'
+                    xmlns='http://www.w3.org/2000/svg'
+                    height='1em'
+                    width='1em'
+                    preserveAspectRatio='xMidYMid meet'
+                    focusable='false'
+                >
+                    <g id='aeoeditor/background-tt' stroke-width='1' fill-rule='evenodd'>
+                    <path
+                        d='M3.58 8.165l2.092 1.209L3.86 12.51l4.9.01.592-1.021 1.39.803 4.138-7.165L7.717 1 3.58 8.165zm1.639-.44L8.156 2.64l5.085 2.936-2.935 5.087-5.087-2.937z'
+                        id='aeoFill-1'
+                    ></path>
+                    <path
+                        id='aeosecondary-color'
+                        d='M1 15.064h11.997v-1.201H1z'
+                        fill='#FFDA00'
+                    ></path>
+                    </g>
+                </svg>`,
+                name: "bg-color",
+                tipPosition: "ne",
+                tip: '背景颜色',
+                className: 'vditor-toolbar__bg',
+            },
+            {
+                icon: '14',
+                name: "font-size",
+                tip: '字号',
+                tipPosition: "n",
+                className: 'vditor-toolbar__font-size',
+            },
+            {
                 name: "|",
             },
             {

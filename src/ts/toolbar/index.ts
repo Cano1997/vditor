@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { getEventName } from "../util/compatibility";
+import { BgColor } from "./bgColor";
 import { Both } from "./Both";
 import { Br } from "./Br";
 import { CodeTheme } from "./CodeTheme";
+import { Color } from "./Color";
 import { ContentTheme } from "./ContentTheme";
 import { Counter } from "./Counter";
 import { Custom } from "./Custom";
@@ -11,6 +13,7 @@ import { Divider } from "./Divider";
 import { EditMode } from "./EditMode";
 import { Emoji } from "./Emoji";
 import { Export } from "./Export";
+import { FontSize } from "./fontSize";
 import { Fullscreen } from "./Fullscreen";
 import { Headings } from "./Headings";
 import { Help } from "./Help";
@@ -211,6 +214,15 @@ export class Toolbar {
                 break;
             case "export":
                 menuItemObj = new Export(vditor, menuItem);
+                break;
+            case "color":
+                menuItemObj = new Color(vditor, menuItem);
+                break;
+            case "bg-color":
+                menuItemObj = new BgColor(vditor, menuItem);
+                break;
+            case "font-size":
+                menuItemObj = new FontSize(vditor, menuItem);
                 break;
             default:
                 menuItemObj = new Custom(vditor, menuItem);

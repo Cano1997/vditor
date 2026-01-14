@@ -44,9 +44,9 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
         range.insertNode(document.createElement("wbr"));
 
         // 在行首进行删除，后面的元素会带有样式，需清除
-        blockElement.querySelectorAll("[style]").forEach((item) => {
-            item.removeAttribute("style");
-        });
+        // blockElement.querySelectorAll("[style]").forEach((item) => {
+        //     item.removeAttribute("style");
+        // });
 
         // 移除空评论
         blockElement.querySelectorAll(".vditor-comment").forEach((item) => {
