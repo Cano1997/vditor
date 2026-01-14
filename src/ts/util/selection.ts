@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {Constants} from "../constants";
 import {isChrome} from "./compatibility";
 import {hasClosestBlock, hasClosestByClassName, hasClosestByMatchTag} from "./hasClosest";
@@ -278,3 +279,41 @@ export const insertHTML = (html: string, vditor: IVditor) => {
         setSelectionFocus(range);
     }
 };
+
+export const getElementsInRange = (sel: Selection | Range) => {
+  const range = sel instanceof Range ? sel : sel.getRangeAt(0);
+  const elements = new Set();          // 天然去重
+
+  // 1. 遍历 Range 内所有“文本节点”
+  let node = range.startContainer;
+
+  // 如果起点就是 Element，直接收进去
+  if (node.nodeType === Node.ELEMENT_NODE) elements.add(node);
+
+  // 2. 用 TreeWalker 只拿文本节点
+  const walker = document.createTreeWalker(
+    range.commonAncestorContainer,
+    NodeFilter.SHOW_TEXT,
+    {
+      acceptNode(n) {
+        // 只保留“和 Range 有交集”的文本节点
+        return range.intersectsNode(n)
+          ? NodeFilter.FILTER_ACCEPT
+          : NodeFilter.FILTER_REJECT;
+      }
+    }
+  );
+
+  // 3. 把文本节点的父元素收进来
+  while (node) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      elements.add(node.parentElement);
+    }
+    node = walker.nextNode();
+  }
+
+  // 4. 按 DOM 顺序排个序
+  return Array.from(elements).sort((a: any, b) =>
+    a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1
+  );
+}

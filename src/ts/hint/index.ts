@@ -29,7 +29,7 @@ export class Hint {
         let currentLineValue: string;
         const range = getSelection().getRangeAt(0);
         const textContent = range.startContainer.textContent;
-        if (!textContent.includes(' ')) {
+        if (!textContent.endsWith(' ')) {
             currentLineValue = range.startContainer.textContent.substring(0, range.startOffset) || "";
         }
 

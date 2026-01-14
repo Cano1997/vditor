@@ -280,7 +280,7 @@ export const listIndent = (vditor: IVditor, liElement: HTMLElement, range: Range
         let liHTML = "";
         liElements.forEach((item: HTMLElement) => {
             let marker = item.getAttribute("data-marker");
-            if (marker.length !== 1) {
+            if (marker && marker.length !== 1) {
                 marker = `1${marker.slice(-1)}`;
             }
             liHTML += `<li data-node-id="${item.getAttribute("data-node-id")}" data-marker="${marker}">${item.innerHTML}</li>`;
