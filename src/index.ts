@@ -287,12 +287,12 @@ class Vditor extends VditorMethod {
         } else if (this.vditor.currentMode === "wysiwyg") {
             // 由于 https://github.com/Vanessa219/vditor/issues/1566 不能使用 this.vditor.wysiwyg.preventInput = true;
             if (render) {
-                input(this.vditor, getSelection().getRangeAt(0));
+                input(this.vditor, range);
             }
         } else if (this.vditor.currentMode === "ir") {
             this.vditor.ir.preventInput = true;
             if (render) {
-                irInput(this.vditor, getSelection().getRangeAt(0), true);
+                irInput(this.vditor, range, true);
             }
         }
     }
