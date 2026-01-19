@@ -87,6 +87,12 @@ export const highlightToolbarIR = (vditor: IVditor) => {
         if (aElement) {
             setCurrentToolbar(vditor.toolbar.elements, ["link"]);
         }
+        if (typeElement) {
+            const fontSize = typeElement.style.fontSize || '14px';
+            const fontSizeToolbar = vditor.toolbar.elements['font-size'];
+            const actionBtn = fontSizeToolbar.children[0] as HTMLElement;
+            actionBtn.textContent = fontSize.replace("px", "");
+        }
 
         const liElement = hasClosestByMatchTag(typeElement, "LI");
         if (liElement) {
