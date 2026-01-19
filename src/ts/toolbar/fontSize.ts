@@ -17,6 +17,7 @@ export class FontSize extends MenuItem {
 <button data-value="14">14px</button>
 <button data-value="15">15px</button>
 <button data-value="16">16px</button>
+<button data-value="18">18px</button>
 <button data-value="20">20px</button>
 <button data-value="24">24px</button>
 <button data-value="28">28px</button>
