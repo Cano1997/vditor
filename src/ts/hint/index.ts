@@ -32,6 +32,20 @@ export class Hint {
         if (!textContent.endsWith(' ')) {
             currentLineValue = range.startContainer.textContent.substring(0, range.startOffset) || "";
         }
+        if (range.startContainer.nodeType === 1) {
+            const innerHTML = (range.startContainer as HTMLElement).innerHTML;
+            if (currentLineValue === '@') {
+                const html = innerHTML.replaceAll(/<span(.+?)>@(.+?)<\/span>/g, '');
+                if (!html.includes('@')) {
+                    currentLineValue = '';
+                }
+            } else if (currentLineValue === '#') {
+                const html = innerHTML.replaceAll(/<span(.+?)>#(.+?)<\/span>/g, '');
+                if (!html.includes('#')) {
+                    currentLineValue = '';
+                }
+            }
+        }
 
         const key = this.getKey(currentLineValue, vditor.options.hint.extend);
 
@@ -131,6 +145,7 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
 
     public fillEmoji = (element: HTMLElement, vditor: IVditor) => {
         this.element.style.display = "none";
+        this.splitChar = '';
 
         const value = decodeURIComponent(element.getAttribute("data-value"));
         const range: Range = window.getSelection().getRangeAt(0);
