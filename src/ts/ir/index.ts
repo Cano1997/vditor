@@ -156,6 +156,9 @@ class IR {
 
             // 点击图片光标选中图片地址
             if (event.target.tagName === "IMG") {
+                if (vditor.options.imageFocus) {
+                    vditor.options.imageFocus(event.target);
+                }
                 const linkElement =
                     event.target.parentElement.querySelector<HTMLSpanElement>(".vditor-ir__marker--link");
                 if (linkElement) {

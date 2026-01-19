@@ -798,7 +798,10 @@ interface IOptions {
     input?(value: string): void;
 
     /** 聚焦后触发  */
-    focus?(value: string): void;
+    focus?(bom: string): void;
+
+    // 图片聚焦
+    imageFocus?(element: HTMLElement): void;
 
     /** 失焦后触发 */
     blur?(value: string): void;
