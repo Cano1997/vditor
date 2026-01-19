@@ -18,7 +18,6 @@ const validateFile = (vditor: IVditor, files: File[]) => {
     vditor.tip.hide();
     const uploadFileList: File[] = [];
     let errorTip = "";
-    let uploadingStr = "";
     const lang: keyof II18n | "" = vditor.options.lang;
     const options: IOptions = vditor.options;
 
@@ -63,11 +62,8 @@ const validateFile = (vditor: IVditor, files: File[]) => {
 
         if (validate) {
             uploadFileList.push(file);
-            uploadingStr += `<li>${filename} ${window.VditorI18n.uploading} <a class="vditorCancelUpload" href="javascript:void(0)">${window.VditorI18n.cancelUpload}</a></li>`;
         }
     }
-
-    vditor.tip.show(`<ul>${errorTip}${uploadingStr}</ul>`);
 
     if (vditor.options.upload.cancel) {
         const vditorCancelUploadElement = vditor.tip.element.querySelector(".vditorCancelUpload");
