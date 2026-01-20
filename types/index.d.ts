@@ -880,7 +880,7 @@ interface IVditor {
         fillEmoji(element: HTMLElement, vditor: IVditor): void
         render(vditor: IVditor): void,
         genHTML(data: IHintData[], key: string, vditor: IVditor): void
-        select(event: KeyboardEvent, vditor: IVditor): boolean,
+        select(event: KeyboardEvent, vditor: IVditor, enableSpace?: boolean): boolean,
     };
     tip: {
         element: HTMLElement
