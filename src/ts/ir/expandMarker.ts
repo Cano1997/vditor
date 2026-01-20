@@ -1,3 +1,4 @@
+import { Constants } from "../constants";
 import {hasClosestByClassName, hasTopClosestByClassName} from "../util/hasClosest";
 import {setSelectionFocus} from "../util/selection";
 
@@ -57,7 +58,9 @@ export const expandMarker = (range: Range, vditor: IVditor) => {
     }
 
     if (nodeElement) {
+        const type = nodeElement.querySelector('.vditor-ir__marker--info').textContent.replace(Constants.ZWSP, "") || 'js';
         nodeElement.classList.add("vditor-ir__node--expand");
+        nodeElement.classList.add(`vditor-ir__node--${type}`);
         nodeElement.classList.remove("vditor-ir__node--hidden");
         // https://github.com/Vanessa219/vditor/issues/615 safari中光标位置跳动
         setSelectionFocus(range);

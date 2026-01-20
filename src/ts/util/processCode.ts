@@ -64,6 +64,7 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
         return;
     }
     const language = previewPanel.firstElementChild.className.replace("language-", "");
+    previewPanel.parentElement.classList.add(`vditor-ir__node--${language || 'js'}`);
     if (language === "abc") {
         abcRender(previewPanel, vditor.options.cdn);
     } else if (language === "mermaid") {
