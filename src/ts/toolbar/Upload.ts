@@ -13,7 +13,11 @@ export class Upload extends MenuItem {
         if (vditor.options.upload.accept) {
             inputHTML += ` accept="${vditor.options.upload.accept}"`;
         }
-        this.element.children[0].innerHTML = `${(menuItem.icon || '上传图片或文件')}${inputHTML}>`;
+        if (menuItem.level === 2) {
+            this.element.children[0].innerHTML = `<button data-type="${menuItem.name}">上传图片或文件</button>${inputHTML}>`;
+        } else {
+            this.element.children[0].innerHTML = `${(menuItem.icon)}${inputHTML}>`;
+        }
         this._bindEvent(vditor);
     }
 

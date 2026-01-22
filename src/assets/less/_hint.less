@@ -64,6 +64,19 @@
     float: left;
     margin-right: 3px;
   }
+  div[data-type="upload"] {
+      position: relative;
+
+      input {
+          width: 100%;
+          height: 100%;
+      }
+
+      &:hover {
+          color: var(--toolbar-icon-hover-color) !important;
+          background-color: var(--toolbar-background-color) !important;
+      }
+  }
 }
 .vditor-hint__input-wrapper {
     width: calc(100% - 24px);
