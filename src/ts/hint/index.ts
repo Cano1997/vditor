@@ -347,7 +347,7 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
             insertHTML(value, vditor);
         }
         // 添加 wbr空格，防止添加后删除失败
-        range.insertNode(document.createElement("wbr"));
+        // range.insertNode(document.createElement("wbr"));
         if (
             this.splitChar === ":" &&
             value.indexOf(":") > -1 &&
