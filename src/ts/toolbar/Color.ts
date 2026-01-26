@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Constants } from "../constants";
 import {getEventName} from "../util/compatibility";
 import { getEditorRange } from "../util/selection";
 import {MenuItem} from "./MenuItem";
@@ -93,17 +94,20 @@ export class Color extends MenuItem {
             const color = element.getAttribute("data-value");
             const range = getEditorRange(vditor);
             const nodes = this.getRangeNodes(range);
+            const text = range.toString();
             // 默认颜色
             if (color === '0') {
                 nodes.forEach((node, index) => {
                     const textContent = node.textContent;
                     const style = node.getAttribute('style');
                     const styles = style ? style.split(';') : [];
-                    const styleIndex = styles.findIndex(item => item.includes('color'));
+                    const styleIndex = styles.findIndex(item => item.startsWith('color'));
                     if (styleIndex > -1) {
                         styles.splice(styleIndex, 1);
                     }
-                    if (index === 0) {
+                    if (!text) {
+                        node.outerHTML = `<span style="${styles.join(';')}">${textContent}</span>`;
+                    } else if (index === 0) {
                         let html = `${textContent.slice(range.startOffset)}`;
                         if (styles.length) {
                             html = `<span style="${styles.join(';')}">${html}</span>`;
@@ -131,12 +135,11 @@ export class Color extends MenuItem {
                     }
                 });
             } else {
-                const text = range.toString();
                 if (nodes.length > 1) {
                     nodes.forEach((node, index) => {
                         const style = node.getAttribute('style');
                         const styles = style ? style.split(';') : [];
-                        const styleIndex = styles.findIndex(item => item.includes('color'));
+                        const styleIndex = styles.findIndex(item => item.startsWith('color'));
                         if (styleIndex > -1) {
                             styles.splice(styleIndex, 1);
                         }
@@ -173,7 +176,7 @@ export class Color extends MenuItem {
                     const node = nodes[0];
                     const style = node.getAttribute('style');
                     const styles = style ? style.split(';') : [];
-                    const styleIndex = styles.findIndex(item => item.includes('color'));
+                    const styleIndex = styles.findIndex(item => item.startsWith('color'));
                     if (styleIndex > -1) {
                         styles.splice(styleIndex, 1);
                     }
@@ -181,10 +184,16 @@ export class Color extends MenuItem {
                     const curColor = node.style.color;
                     const textContent = node.textContent;
                     if (!curColor) {
-                        node.innerHTML = node.innerHTML.replace(text, `<span style="color: ${color};${styles.join(';')}">${text}</span>`);
+                        if (textContent) {
+                            node.outerHTML = node.innerHTML.replace(textContent, `<span style="color: ${color};${styles.join(';')}">${textContent}</span>`);
+                        } else {
+                            node.outerHTML = `<span style="color: ${color}">${Constants.ZWSP}</span>`;
+                        }
                     } else {
                         // 修改颜色
-                        if (textContent === text) {
+                        if (!text) {
+                            node.outerHTML = `<span style="color: ${color};${styles.join(';')}">${textContent}</span>`;
+                        } else if (textContent === text) {
                             node.insertAdjacentHTML('beforebegin', `<span style="color: ${color};${styles.join(';')}">${text}</span>`);
                             node.remove();
                         } else if (textContent.includes(text)) {

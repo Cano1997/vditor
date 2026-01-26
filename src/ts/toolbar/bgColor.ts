@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Constants } from "../constants";
 import {getEventName} from "../util/compatibility";
 import { getEditorRange } from "../util/selection";
 import {MenuItem} from "./MenuItem";
@@ -93,6 +94,7 @@ export class BgColor extends MenuItem {
             const color = element.getAttribute("data-value");
             const range = getEditorRange(vditor);
             const nodes = this.getRangeNodes(range);
+            const text = range.toString();
             // 默认颜色
             if (color === '0') {
                 nodes.forEach((node, index) => {
@@ -103,7 +105,9 @@ export class BgColor extends MenuItem {
                     if (styleIndex > -1) {
                         styles.splice(styleIndex, 1);
                     }
-                    if (index === 0) {
+                    if (!text) {
+                        node.outerHTML = `<span style="${styles.join(';')}">${textContent}</span>`;
+                    } else if (index === 0) {
                         let html = `${textContent.slice(range.startOffset)}`;
                         if (styles.length) {
                             html = `<span style="${styles.join(';')}">${html}</span>`;
@@ -131,7 +135,6 @@ export class BgColor extends MenuItem {
                     }
                 });
             } else {
-                const text = range.toString();
                 if (nodes.length > 1) {
                     nodes.forEach((node, index) => {
                         const style = node.getAttribute('style');
@@ -181,10 +184,16 @@ export class BgColor extends MenuItem {
                     const textContent = node.textContent;
                     // 添加颜色
                     if (!curColor) {
-                        node.innerHTML = node.innerHTML.replace(text, `<span style="background-color: ${color};${styles.join(';')}">${text}</span>`);
+                        if (textContent) {
+                            node.outerHTML = node.innerHTML.replace(textContent, `<span style="background-color: ${color};${styles.join(';')}">${textContent}</span>`);
+                        } else {
+                            node.outerHTML = `<span style="background-color: ${color}">${Constants.ZWSP}</span>`;
+                        }
                     } else {
                         // 修改颜色
-                        if (textContent === text) {
+                        if (!text) {
+                            node.outerHTML = `<span style="background-color: ${color};${styles.join(';')}">${textContent}</span>`;
+                        } else if (textContent === text) {
                             node.insertAdjacentHTML('beforebegin', `<span style="background-color: ${color};${styles.join(';')}">${text}</span>`);
                             node.remove();
                         } else if (textContent.includes(text)) {

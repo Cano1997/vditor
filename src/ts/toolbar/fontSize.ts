@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Constants } from "../constants";
 import {getEventName} from "../util/compatibility";
 import { getEditorRange } from "../util/selection";
 import {MenuItem} from "./MenuItem";
@@ -80,10 +81,16 @@ export class FontSize extends MenuItem {
                     const curSize = node.style.fontSize;
                     const textContent = node.textContent;
                     if (!curSize) {
-                        node.innerHTML = node.innerHTML.replace(text, `<span style="font-size: ${size}px;${styles.join(';')}">${text}</span>`);
+                        if (textContent) {
+                            node.innerHTML = node.innerHTML.replace(textContent, `<span style="font-size: ${size}px;${styles.join(';')}">${textContent || Constants.ZWSP}</span>`);
+                        } else {
+                            node.innerHTML = `<span style="font-size: ${size}px;${styles.join(';')}">${Constants.ZWSP}</span>`;
+                        }
                     } else {
                         // 修改字号
-                        if (textContent === text) {
+                        if (!text) {
+                            node.innerHTML = `<span style="font-size: ${size}px;${styles.join(';')}">${textContent}</span>`;
+                        } else if (textContent === text) {
                             node.insertAdjacentHTML('beforebegin', `<span style="font-size: ${size}px;${styles.join(';')}">${text}</span>`);
                             node.remove();
                         } else if (textContent.includes(text)) {
