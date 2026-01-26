@@ -191,10 +191,8 @@ export class Hint {
                 "<div class='vditor-hint__input-wrapper'><input class='vditor-hint__input' type='text'/></div>";
         }
 
+        hintsHTML += `<div class="vditor-hint__wrapper">`;
         data.forEach((hintData, i) => {
-            if (i > 7) {
-                return;
-            }
             // process high light
             let html = hintData.html;
             if (key !== "") {
@@ -219,6 +217,7 @@ export class Hint {
             hintsHTML += `<button type="button" data-value="${encodeURIComponent(hintData.value)} "
 ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
         });
+        hintsHTML += `</div>`;
 
         if (item) {
             hintsHTML += `<div class='vditor-hint__empty'>${emptyIcon}暂无数据</div>`;
