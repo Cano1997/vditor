@@ -289,7 +289,7 @@ export const highlightToolbarIR = (vditor: IVditor) => {
             left.innerHTML =
                 '<svg><use xlink:href="#vditor-icon-align-left"></use></svg>';
             left.className =
-                "vditor-icon vditor-tooltipped vditor-tooltipped__n" +
+                "vditor-icon vditor-tooltipped vditor-tooltipped__s" +
                 (alignType === "left" ? " vditor-icon--current" : "");
             left.onclick = () => {
                 setAlign("left");
@@ -308,7 +308,7 @@ export const highlightToolbarIR = (vditor: IVditor) => {
             center.innerHTML =
                 '<svg><use xlink:href="#vditor-icon-align-center"></use></svg>';
             center.className =
-                "vditor-icon vditor-tooltipped vditor-tooltipped__n" +
+                "vditor-icon vditor-tooltipped vditor-tooltipped__s" +
                 (alignType === "center" ? " vditor-icon--current" : "");
             center.onclick = () => {
                 setAlign("center");
@@ -327,7 +327,7 @@ export const highlightToolbarIR = (vditor: IVditor) => {
             right.innerHTML =
                 '<svg><use xlink:href="#vditor-icon-align-right"></use></svg>';
             right.className =
-                "vditor-icon vditor-tooltipped vditor-tooltipped__n" +
+                "vditor-icon vditor-tooltipped vditor-tooltipped__s" +
                 (alignType === "right" ? " vditor-icon--current" : "");
             right.onclick = () => {
                 setAlign("right");
@@ -346,7 +346,7 @@ export const highlightToolbarIR = (vditor: IVditor) => {
             insertRowElement.innerHTML =
                 '<svg><use xlink:href="#vditor-icon-insert-row"></use></svg>';
             insertRowElement.className =
-                "vditor-icon vditor-tooltipped vditor-tooltipped__n";
+                "vditor-icon vditor-tooltipped vditor-tooltipped__s";
             insertRowElement.onclick = () => {
                 const startContainer =
                     getSelection().getRangeAt(0).startContainer;
@@ -371,7 +371,7 @@ export const highlightToolbarIR = (vditor: IVditor) => {
             insertRowBElement.innerHTML =
                 '<svg><use xlink:href="#vditor-icon-insert-rowb"></use></svg>';
             insertRowBElement.className =
-                "vditor-icon vditor-tooltipped vditor-tooltipped__n";
+                "vditor-icon vditor-tooltipped vditor-tooltipped__s";
             insertRowBElement.onclick = () => {
                 const startContainer =
                     getSelection().getRangeAt(0).startContainer;
@@ -396,7 +396,7 @@ export const highlightToolbarIR = (vditor: IVditor) => {
             insertColumnElement.innerHTML =
                 '<svg><use xlink:href="#vditor-icon-insert-column"></use></svg>';
             insertColumnElement.className =
-                "vditor-icon vditor-tooltipped vditor-tooltipped__n";
+                "vditor-icon vditor-tooltipped vditor-tooltipped__s";
             insertColumnElement.onclick = () => {
                 const startContainer =
                     getSelection().getRangeAt(0).startContainer;
@@ -421,7 +421,7 @@ export const highlightToolbarIR = (vditor: IVditor) => {
             insertColumnBElement.innerHTML =
                 '<svg><use xlink:href="#vditor-icon-insert-columnb"></use></svg>';
             insertColumnBElement.className =
-                "vditor-icon vditor-tooltipped vditor-tooltipped__n";
+                "vditor-icon vditor-tooltipped vditor-tooltipped__s";
             insertColumnBElement.onclick = () => {
                 const startContainer =
                     getSelection().getRangeAt(0).startContainer;
@@ -451,7 +451,7 @@ export const highlightToolbarIR = (vditor: IVditor) => {
             deleteRowElement.innerHTML =
                 '<svg><use xlink:href="#vditor-icon-delete-row"></use></svg>';
             deleteRowElement.className =
-                "vditor-icon vditor-tooltipped vditor-tooltipped__n";
+                "vditor-icon vditor-tooltipped vditor-tooltipped__s";
             deleteRowElement.onclick = () => {
                 const startContainer =
                     getSelection().getRangeAt(0).startContainer;
@@ -476,7 +476,7 @@ export const highlightToolbarIR = (vditor: IVditor) => {
             deleteColumnElement.innerHTML =
                 '<svg><use xlink:href="#vditor-icon-delete-column"></use></svg>';
             deleteColumnElement.className =
-                "vditor-icon vditor-tooltipped vditor-tooltipped__n";
+                "vditor-icon vditor-tooltipped vditor-tooltipped__s";
             deleteColumnElement.onclick = () => {
                 const startContainer =
                     getSelection().getRangeAt(0).startContainer;
@@ -490,7 +490,7 @@ export const highlightToolbarIR = (vditor: IVditor) => {
 
             const inputWrap = document.createElement("span");
             inputWrap.setAttribute("aria-label", window.VditorI18n.row);
-            inputWrap.className = "vditor-tooltipped vditor-tooltipped__n";
+            inputWrap.className = "vditor-tooltipped vditor-tooltipped__s";
             const input = document.createElement("input");
             inputWrap.appendChild(input);
             input.type = "number";
@@ -523,7 +523,7 @@ export const highlightToolbarIR = (vditor: IVditor) => {
 
             const input2Wrap = document.createElement("span");
             input2Wrap.setAttribute("aria-label", window.VditorI18n.column);
-            input2Wrap.className = "vditor-tooltipped vditor-tooltipped__n";
+            input2Wrap.className = "vditor-tooltipped vditor-tooltipped__s";
             const input2 = document.createElement("input");
             input2Wrap.appendChild(input2);
             input2.type = "number";
@@ -613,7 +613,7 @@ const genUp = (range: Range, element: HTMLElement, vditor: IVditor) => {
     upElement.setAttribute("data-type", "up");
     upElement.setAttribute("aria-label", window.VditorI18n.up + "<" + updateHotkeyTip("⇧⌘U") + ">");
     upElement.innerHTML = '<svg><use xlink:href="#vditor-icon-up"></use></svg>';
-    upElement.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
+    upElement.className = "vditor-icon vditor-tooltipped vditor-tooltipped__s";
     upElement.onclick = () => {
         range.insertNode(document.createElement("wbr"));
         previousElement.insertAdjacentElement("beforebegin", element);
@@ -641,7 +641,7 @@ const genDown = (range: Range, element: HTMLElement, vditor: IVditor) => {
     downElement.innerHTML =
         '<svg><use xlink:href="#vditor-icon-down"></use></svg>';
     downElement.className =
-        "vditor-icon vditor-tooltipped vditor-tooltipped__n";
+        "vditor-icon vditor-tooltipped vditor-tooltipped__s";
     downElement.onclick = () => {
         range.insertNode(document.createElement("wbr"));
         nextElement.insertAdjacentElement("afterend", element);
@@ -660,7 +660,7 @@ const genClose = (element: HTMLElement, vditor: IVditor) => {
     close.setAttribute("aria-label", window.VditorI18n.remove + "<" + updateHotkeyTip("⇧⌘X") + ">");
     close.innerHTML =
         '<svg><use xlink:href="#vditor-icon-trashcan"></use></svg>';
-    close.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
+    close.className = "vditor-icon vditor-tooltipped vditor-tooltipped__s";
     close.onclick = () => {
         const range = getEditorRange(vditor);
         range.setStartAfter(element);
