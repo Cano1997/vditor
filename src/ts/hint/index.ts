@@ -49,7 +49,7 @@ export class Hint {
         }
         if (range.startContainer.nodeType === 1) {
             const innerHTML = (range.startContainer as HTMLElement).innerHTML;
-            if (currentLineValue === "@") {
+            if (currentLineValue.startsWith('@')) {
                 const html = innerHTML.replaceAll(
                     /<span(.+?)>@(.+?)<\/span>/g,
                     ""
@@ -57,7 +57,7 @@ export class Hint {
                 if (!html.includes("@")) {
                     currentLineValue = "";
                 }
-            } else if (currentLineValue === "#") {
+            } else if (currentLineValue.startsWith('#')) {
                 const html = innerHTML.replaceAll(
                     /<span(.+?)>#(.+?)<\/span>/g,
                     ""
@@ -269,7 +269,6 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
 
     public fillEmoji = (element: HTMLElement, vditor: IVditor) => {
         this.element.style.display = "none";
-        this.splitChar = "";
 
         const value = decodeURIComponent(element.getAttribute("data-value"));
         const range: Range = getEditorRange(vditor);
@@ -345,8 +344,6 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
         } else {
             insertHTML(value, vditor);
         }
-        // 添加 wbr空格，防止添加后删除失败
-        // range.insertNode(document.createElement("wbr"));
         if (
             this.splitChar === ":" &&
             value.indexOf(":") > -1 &&
@@ -394,6 +391,7 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
             }
         }
         execAfterRender(vditor);
+        this.splitChar = "";
     };
 
     public select(event: KeyboardEvent, vditor: IVditor, enableSpace: boolean = false) {
