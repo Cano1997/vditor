@@ -311,6 +311,10 @@ class Vditor extends VditorMethod {
         }
     }
 
+    public getEditorRange() {
+        return getEditorRange(this.vditor);
+    }
+
     /** 在焦点处插入 Markdown */
     public insertMD(md: string) {
         // https://github.com/Vanessa219/vditor/issues/1640
