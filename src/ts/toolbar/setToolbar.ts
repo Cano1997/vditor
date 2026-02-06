@@ -90,6 +90,9 @@ export const hidePanel = (vditor: IVditor, panels: string[], exceptElement?: HTM
     if (vditor.wysiwyg.popover && panels.includes("popover")) {
         vditor.wysiwyg.popover.style.display = "none";
     }
+    if (vditor.options.hidePanel) {
+        vditor.options.hidePanel(panels);
+    }
 };
 
 export const toggleSubMenu = (vditor: IVditor, panelElement: HTMLElement, actionBtn: Element, level: number) => {
