@@ -16,6 +16,7 @@ import { Export } from "./Export";
 import { FontSize } from "./fontSize";
 import { Fullscreen } from "./Fullscreen";
 import { Headings } from "./Headings";
+import { HeadingList } from "./HeadingList";
 import { Help } from "./Help";
 import { Indent } from "./Indent";
 import { Info } from "./Info";
@@ -37,10 +38,14 @@ export class Toolbar {
     public originToolbar: IMenuItem[];
     public offsetWidth: number;
 
-    constructor(vditor: IVditor) {
+    constructor(vditor: IVditor, id?: string, toolbar?: IMenuItem[]) {
         const options = vditor.options;
         this.elements = {};
-        this.element = document.createElement("div");
+        if (id) {
+            this.element = document.querySelector(id);
+        } else {
+            this.element = document.createElement("div");
+        }
         this.element.className = "vditor-toolbar";
         this.originToolbar = [...vditor.options.toolbar as IMenuItem[]];
         this.offsetWidth = vditor.options.toolbarConfig.offsetWidth || 8;
@@ -49,7 +54,7 @@ export class Toolbar {
             this.element.className += " vditor-toolbar--ellipsis";
             this.calcEllipsisToolbar(vditor);
         } else { 
-            this.initToolbar(vditor, options.toolbar as IMenuItem[]);
+            this.initToolbar(vditor, toolbar || options.toolbar as IMenuItem[]);
         }
     }
 
@@ -151,6 +156,9 @@ export class Toolbar {
                 break;
             case "headings":
                 menuItemObj = new Headings(vditor, menuItem);
+                break;
+            case "heading-list":
+                menuItemObj = new HeadingList(vditor, menuItem);
                 break;
             case "|":
                 menuItemObj = new Divider();

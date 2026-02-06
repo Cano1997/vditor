@@ -186,7 +186,7 @@ export class Options {
         return mergedOptions;
     }
 
-    private mergeToolbar(toolbar: Array<string | IMenuItem>) {
+    public mergeToolbar(toolbar: Array<string | IMenuItem>) {
         const toolbarItem = [
             {
                 icon: '<svg><use xlink:href="#vditor-icon-export"></use></svg>',
@@ -205,6 +205,14 @@ export class Options {
                     '<svg><use xlink:href="#vditor-icon-headings"></use></svg>',
                 name: "headings",
                 tipPosition: "ne",
+            },
+            {
+                hotkey: "⌘H",
+                icon:
+                    '<svg><use xlink:href="#vditor-icon-heading-list"></use></svg>',
+                name: "heading-list",
+                tipPosition: "ne",
+                className: 'vditor-toolbar__header-list',
             },
             {
                 hotkey: "⌘B",
