@@ -87,9 +87,9 @@ export const highlightToolbarIR = (vditor: IVditor) => {
         if (aElement) {
             setCurrentToolbar(vditor.toolbar.elements, ["link"]);
         }
-        if (typeElement) {
+        const fontSizeToolbar = vditor.toolbar.elements['font-size'];
+        if (typeElement && fontSizeToolbar) {
             const fontSize = typeElement.style.fontSize || '14px';
-            const fontSizeToolbar = vditor.toolbar.elements['font-size'];
             const actionBtn = fontSizeToolbar.children[0] as HTMLElement;
             actionBtn.textContent = fontSize.replace("px", "");
         }
