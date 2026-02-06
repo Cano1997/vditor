@@ -185,9 +185,9 @@ export class Color extends MenuItem {
                     const textContent = node.textContent;
                     if (!curColor) {
                         if (textContent) {
-                            node.outerHTML = node.innerHTML.replace(textContent, `<span style="color: ${color};${styles.join(';')}">${textContent}</span>`);
+                            node.innerHTML = node.innerHTML.replace(textContent, `<span style="color: ${color};${styles.join(';')}">${textContent}</span>`);
                         } else {
-                            node.outerHTML = `<span style="color: ${color}">${Constants.ZWSP}</span>`;
+                            node.innerHTML = `<span style="color: ${color}">${Constants.ZWSP}</span>`;
                         }
                     } else {
                         // 修改颜色
