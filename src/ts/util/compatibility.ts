@@ -38,8 +38,15 @@ export const isCtrl = (event: KeyboardEvent) => {
         return false;
     }
 };
+
+export function isMobile(): boolean {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
 // Mac，Windows 快捷键展示
 export const updateHotkeyTip = (hotkey: string) => {
+    if (isMobile()) {
+        return;
+    }
     if (/Mac/.test(navigator.platform) || navigator.platform === "iPhone") {
         if (hotkey.indexOf("⇧") > -1 && isFirefox()) {
             // Mac Firefox 按下 shift 后，key 同 windows 系统
