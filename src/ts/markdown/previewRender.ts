@@ -43,7 +43,7 @@ const mergeOptions = (options?: IPreviewOptions) => {
         },
         theme: Constants.THEME_OPTIONS,
     };
-    if (options.cdn) {
+    if (options && options.cdn) {
         if (!options.theme?.path) {
             defaultOption.theme.path = `${options.cdn}/dist/css/content-theme`
         }

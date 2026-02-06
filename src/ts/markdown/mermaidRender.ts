@@ -8,12 +8,12 @@ declare const mermaid: {
     render(id: string, text: string): { svg: string }
 };
 
-export const mermaidRender = (element: (HTMLElement | Document) = document, cdn = Constants.CDN, theme: string) => {
+export const mermaidRender = (element: (HTMLElement | Document) = document, cdn = Constants.CDN, theme: string, vditor?: IVditor) => {
     const mermaidElements = mermaidRenderAdapter.getElements(element);
     if (mermaidElements.length === 0) {
         return;
     }
-    addScript(`${cdn}/dist/js/mermaid/mermaid.min.js?v=11.11.0`, "vditorMermaidScript").then(() => {
+    addScript(`${cdn}/dist/js/mermaid/mermaid.min.js?v=11.11.0`, "vditorMermaidScript").then(async () => {
         const config: any = {
             securityLevel: "loose", // 升级后无 https://github.com/siyuan-note/siyuan/issues/3587，可使用该选项
             altFontFamily: "sans-serif",
@@ -39,7 +39,8 @@ export const mermaidRender = (element: (HTMLElement | Document) = document, cdn 
             config.theme = "dark";
         }
         mermaid.initialize(config);
-        mermaidElements.forEach(async (item) => {
+        for (let index = 0; index < mermaidElements.length; index++) {
+            const item = mermaidElements[index];
             const code = mermaidRenderAdapter.getCode(item);
             if (item.getAttribute("data-processed") === "true" || code.trim() === "") {
                 return;
@@ -55,6 +56,9 @@ export const mermaidRender = (element: (HTMLElement | Document) = document, cdn 
                 errorElement.parentElement.remove();
             }
             item.setAttribute("data-processed", "true");
-        });
+        }
+        if (vditor && vditor.options.renderAfter) {
+            vditor.options.renderAfter();
+        }
     });
 };

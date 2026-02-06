@@ -3,7 +3,7 @@ import {addScript} from "../util/addScript";
 import {addStyle} from "../util/addStyle";
 
 export const highlightRender = (hljsOption?: IHljs, element: HTMLElement | Document = document,
-                                cdn = Constants.CDN) => {
+                                cdn = Constants.CDN, vditor?: IVditor) => {
     let style = hljsOption.style;
     if (!Constants.CODE_THEME.includes(style)) {
         style = "github";
@@ -89,6 +89,9 @@ export const highlightRender = (hljsOption?: IHljs, element: HTMLElement | Docum
                 lineNumberHTML = `<span class="vditor-linenumber__rows">${lineNumberHTML}</span>`;
                 block.insertAdjacentHTML("beforeend", lineNumberHTML);
             })
+            if (vditor && vditor.options.renderAfter) {
+                vditor.options.renderAfter();
+            }
         })
     });
 };

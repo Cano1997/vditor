@@ -18,7 +18,7 @@ declare global {
     }
 }
 
-export const mathRender = (element: (HTMLElement | Document) = document, options?: { cdn?: string, math?: IMath }) => {
+export const mathRender = (element: (HTMLElement | Document) = document, options?: { cdn?: string, math?: IMath }, vditor?: IVditor) => {
     const mathElements = mathRenderAdapter.getElements(element);
 
     if (mathElements.length === 0) {
@@ -74,6 +74,9 @@ export const mathRender = (element: (HTMLElement | Document) = document, options
                             vditorMathElement.getAttribute("data-math"));
                     });
                 });
+                if (vditor && vditor.options.renderAfter) {
+                    vditor.options.renderAfter();
+                }
             });
         });
     } else if (options.math.engine === "MathJax") {

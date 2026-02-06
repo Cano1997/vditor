@@ -6,7 +6,7 @@ declare const flowchart: {
     parse(text: string): { drawSVG: (type: HTMLElement) => void };
 };
 
-export const flowchartRender = (element: HTMLElement, cdn = Constants.CDN) => {
+export const flowchartRender = (element: HTMLElement, cdn = Constants.CDN, vditor?: IVditor) => {
     const flowchartElements = flowchartRenderAdapter.getElements(element);
     if (flowchartElements.length === 0) {
         return;
@@ -21,5 +21,8 @@ export const flowchartRender = (element: HTMLElement, cdn = Constants.CDN) => {
             flowchartObj.drawSVG(item);
             item.setAttribute("data-processed", "true");
         });
+        if (vditor && vditor.options.renderAfter) {
+            vditor.options.renderAfter();
+        }
     });
 };

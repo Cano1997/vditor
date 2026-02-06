@@ -6,7 +6,7 @@ declare const echarts: {
     init(element: HTMLElement, theme?: string): IEChart;
 };
 
-export const mindmapRender = (element: (HTMLElement | Document) = document, cdn = Constants.CDN, theme: string) => {
+export const mindmapRender = (element: (HTMLElement | Document) = document, cdn = Constants.CDN, theme: string, vditor?: IVditor) => {
     const mindmapElements = mindmapRenderAdapter.getElements(element);
     if (mindmapElements.length > 0) {
         addScript(`${cdn}/dist/js/echarts/echarts.min.js?v=5.5.1`, "vditorEchartsScript").then(() => {
@@ -69,6 +69,9 @@ export const mindmapRender = (element: (HTMLElement | Document) = document, cdn 
                     e.innerHTML = `mindmap render error: <br>${error}`;
                 }
             });
+            if (vditor && vditor.options.renderAfter) {
+                vditor.options.renderAfter();
+            }
         });
     }
 };

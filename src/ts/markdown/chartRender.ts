@@ -7,11 +7,12 @@ declare const echarts: {
     init(element: HTMLElement, theme?: string): IEChart;
 };
 
-export const chartRender = (element: (HTMLElement | Document) = document, cdn = Constants.CDN, theme: string) => {
+export const chartRender = (element: (HTMLElement | Document) = document, cdn = Constants.CDN, theme: string, vditor?: IVditor) => {
     const echartsElements = chartRenderAdapter.getElements(element);
     if (echartsElements.length > 0) {
-        addScript(`${cdn}/dist/js/echarts/echarts.min.js?v=5.5.1`, "vditorEchartsScript").then(() => {
-            echartsElements.forEach(async (e: HTMLDivElement) => {
+        addScript(`${cdn}/dist/js/echarts/echarts.min.js?v=5.5.1`, "vditorEchartsScript").then(async () => {
+            for (let index = 0; index < echartsElements.length; index++) {
+                const e = echartsElements[index] as HTMLDivElement;
                 if (e.parentElement.classList.contains("vditor-wysiwyg__pre") ||
                     e.parentElement.classList.contains("vditor-ir__marker--pre")) {
                     return;
@@ -32,7 +33,10 @@ export const chartRender = (element: (HTMLElement | Document) = document, cdn = 
                     e.className = "vditor-reset--error";
                     e.innerHTML = `echarts render error: <br>${error}`;
                 }
-            });
+            }
+            if (vditor && vditor.options.renderAfter) {
+                vditor.options.renderAfter();
+            }
         });
     }
 };

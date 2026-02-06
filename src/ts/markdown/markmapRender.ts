@@ -32,7 +32,7 @@ const init = (el: HTMLElement,code: string) => {
   }
 
 
-export const markmapRender = (element: (HTMLElement | Document) = document, cdn = Constants.CDN) => {
+export const markmapRender = (element: (HTMLElement | Document) = document, cdn = Constants.CDN, vditor?: IVditor) => {
     const markmapElements = markmapRenderAdapter.getElements(element);
     if (markmapElements.length === 0) {
         return;
@@ -52,5 +52,8 @@ export const markmapRender = (element: (HTMLElement | Document) = document, cdn 
                 item.parentNode.removeChild(item.parentNode.childNodes[0])
             }
         });
+        if (vditor && vditor.options.renderAfter) {
+            vditor.options.renderAfter();
+        }
     });
 };

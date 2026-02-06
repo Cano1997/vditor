@@ -6,7 +6,7 @@ declare const ABCJS: {
     renderAbc(element: HTMLElement, text: string): void;
 };
 
-export const abcRender = (element: (HTMLElement | Document) = document, cdn = Constants.CDN) => {
+export const abcRender = (element: (HTMLElement | Document) = document, cdn = Constants.CDN, vditor?: IVditor) => {
     const abcElements = abcRenderAdapter.getElements(element);
     if (abcElements.length > 0) {
         addScript(`${cdn}/dist/js/abcjs/abcjs_basic.min.js`, "vditorAbcjsScript").then(() => {
@@ -22,6 +22,9 @@ export const abcRender = (element: (HTMLElement | Document) = document, cdn = Co
                 item.style.overflowX = "auto";
                 item.setAttribute("data-processed", "true");
             });
+            if (vditor && vditor.options.renderAfter) {
+                vditor.options.renderAfter();
+            }
         });
     }
 };

@@ -8,7 +8,7 @@ declare class Viz {
     constructor({ }: { worker: Worker });
 }
 
-export const graphvizRender = (element: HTMLElement, cdn = Constants.CDN) => {
+export const graphvizRender = (element: HTMLElement, cdn = Constants.CDN, vditor?: IVditor) => {
     const graphvizElements = graphvizRenderAdapter.getElements(element);
 
     if (graphvizElements.length === 0) {
@@ -45,5 +45,8 @@ export const graphvizRender = (element: HTMLElement, cdn = Constants.CDN) => {
 
             e.setAttribute("data-processed", "true");
         });
+        if (vditor && vditor.options.renderAfter) {
+            vditor.options.renderAfter();
+        }
     });
 };

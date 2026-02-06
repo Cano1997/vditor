@@ -9,7 +9,7 @@ declare class SmiDrawer {
     public draw: (code: string, id: string, theme?: string) => void;
 }
 
-export const SMILESRender = (element: (HTMLElement | Document) = document, cdn = Constants.CDN, theme: string) => {
+export const SMILESRender = (element: (HTMLElement | Document) = document, cdn = Constants.CDN, theme: string, vditor?: IVditor) => {
     const SMILESElements = SMILESRenderAdapter.getElements(element);
     if (SMILESElements.length > 0) {
         addScript(`${cdn}/dist/js/smiles-drawer/smiles-drawer.min.js?v=2.1.7`, "vditorAbcjsScript").then(() => {
@@ -24,6 +24,9 @@ export const SMILESRender = (element: (HTMLElement | Document) = document, cdn =
                 sd.draw(code, '#' + id, theme === "dark" ? "dark" : undefined)
                 item.setAttribute("data-processed", "true");
             });
+            if (vditor && vditor.options.renderAfter) {
+                vditor.options.renderAfter();
+            }
         });
     }
 };

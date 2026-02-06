@@ -66,25 +66,25 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
     const language = previewPanel.firstElementChild.className.replace("language-", "");
     previewPanel.parentElement.classList.add(`vditor-ir__node--${language || 'js'}`);
     if (language === "abc") {
-        abcRender(previewPanel, vditor.options.cdn);
+        abcRender(previewPanel, vditor.options.cdn, vditor);
     } else if (language === "mermaid") {
-        mermaidRender(previewPanel, vditor.options.cdn, vditor.options.theme);
+        mermaidRender(previewPanel, vditor.options.cdn, vditor.options.theme, vditor);
     } else if (language === "smiles") {
-        SMILESRender(previewPanel, vditor.options.cdn, vditor.options.theme);
+        SMILESRender(previewPanel, vditor.options.cdn, vditor.options.theme, vditor);
     } else if (language === "markmap") {
-        markmapRender(previewPanel, vditor.options.cdn);
+        markmapRender(previewPanel, vditor.options.cdn, vditor);
     } else if (language === "flowchart") {
-        flowchartRender(previewPanel, vditor.options.cdn);
+        flowchartRender(previewPanel, vditor.options.cdn, vditor);
     } else if (language === "echarts") {
-        chartRender(previewPanel, vditor.options.cdn, vditor.options.theme);
+        chartRender(previewPanel, vditor.options.cdn, vditor.options.theme, vditor);
     } else if (language === "mindmap") {
-        mindmapRender(previewPanel, vditor.options.cdn, vditor.options.theme);
+        mindmapRender(previewPanel, vditor.options.cdn, vditor.options.theme, vditor);
     } else if (language === "plantuml") {
-        plantumlRender(previewPanel, vditor.options.cdn);
+        plantumlRender(previewPanel, vditor.options.cdn, vditor);
     } else if (language === "graphviz") {
-        graphvizRender(previewPanel, vditor.options.cdn);
+        graphvizRender(previewPanel, vditor.options.cdn, vditor);
     } else if (language === "math") {
-        mathRender(previewPanel, {cdn: vditor.options.cdn, math: vditor.options.preview.math});
+        mathRender(previewPanel, {cdn: vditor.options.cdn, math: vditor.options.preview.math}, vditor);
     } else {
         const cRender = vditor.options.customRenders.find((item) => {
             if (item.language === language) {

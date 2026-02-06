@@ -790,6 +790,7 @@ interface IOptions {
         language: string,
         render: (element: HTMLElement, vditor: IVditor) => void
     }[],
+    renderAfter?: () => void;
 
     /** 编辑器异步渲染完成后的回调方法 */
     after?(): void;
