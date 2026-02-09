@@ -5,6 +5,9 @@ import {hasClosestBlock, hasClosestByClassName, hasClosestByMatchTag} from "./ha
 
 export const getEditorRange = (vditor: IVditor) => {
     let range: Range;
+    if (vditor.lastRange) {
+        return vditor.lastRange;
+    }
     const element = vditor[vditor.currentMode].element;
     if (getSelection().rangeCount > 0) {
         range = getSelection().getRangeAt(0);

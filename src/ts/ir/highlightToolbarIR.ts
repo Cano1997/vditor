@@ -247,6 +247,7 @@ export const highlightToolbarIR = (vditor: IVditor) => {
                         }
                     }
                 }
+                vditor.lastRange = undefined;
                 if (typeof vditor.options.input === "function") {
                     vditor.options.input(getMarkdown(vditor));
                 }

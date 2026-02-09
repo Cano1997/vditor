@@ -284,6 +284,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
                         }
                     }
                 }
+                vditor.lastRange = undefined;
                 if (typeof vditor.options.input === "function") {
                     vditor.options.input(getMarkdown(vditor));
                 }
@@ -582,6 +583,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
                 if (input.value.trim() !== "") {
                     footnotesRefElement.setAttribute("data-footnotes-label", input.value);
                 }
+                vditor.lastRange = undefined;
                 if (typeof vditor.options.input === "function") {
                     vditor.options.input(getMarkdown(vditor));
                 }
@@ -723,6 +725,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
             input.value = headingElement.getAttribute("data-id") || "";
             input.oninput = () => {
                 headingElement.setAttribute("data-id", input.value);
+                vditor.lastRange = undefined;
                 if (typeof vditor.options.input === "function") {
                     vditor.options.input(getMarkdown(vditor));
                 }
@@ -821,6 +824,7 @@ export const genLinkRefPopover = (vditor: IVditor, linkRefElement: HTMLElement, 
         if (input1.value.trim() !== "") {
             linkRefElement.setAttribute("data-link-label", input1.value);
         }
+        vditor.lastRange = undefined;
         if (typeof vditor.options.input === "function") {
             vditor.options.input(getMarkdown(vditor));
         }
@@ -1079,6 +1083,7 @@ export const genImagePopover = (event: Event, vditor: IVditor) => {
         imgElement.setAttribute("src", inputElement.value);
         imgElement.setAttribute("alt", alt.value);
         imgElement.setAttribute("title", title.value);
+        vditor.lastRange = undefined;
         if (typeof vditor.options.input === "function") {
             vditor.options.input(getMarkdown(vditor));
         }

@@ -52,6 +52,7 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false, event?
         }
 
         if (startSpace) {
+            vditor.lastRange = undefined;
             if (typeof vditor.options.input === "function") {
                 vditor.options.input(getMarkdown(vditor));
             }
@@ -73,6 +74,7 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false, event?
                     // FireFox https://github.com/Vanessa219/vditor/issues/239
                     previousNode.classList.remove("vditor-ir__node--expand");
                 }
+                vditor.lastRange = undefined;
                 if (typeof vditor.options.input === "function") {
                     vditor.options.input(getMarkdown(vditor));
                 }

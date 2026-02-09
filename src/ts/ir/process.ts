@@ -52,6 +52,7 @@ export const processAfterRender = (vditor: IVditor, options = {
             return;
         }
         const text = getMarkdown(vditor);
+        vditor.lastRange = undefined;
         if (typeof vditor.options.input === "function" && options.enableInput) {
             vditor.options.input(text);
         }

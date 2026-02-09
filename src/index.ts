@@ -151,6 +151,9 @@ class Vditor extends VditorMethod {
 
     /** 让编辑器失焦 */
     public blur() {
+        this.vditor.lastRange = undefined;
+        const range = getEditorRange(this.vditor);
+        this.vditor.lastRange = range;
         if (this.vditor.currentMode === "sv") {
             this.vditor.sv.element.blur();
         } else if (this.vditor.currentMode === "wysiwyg") {
@@ -269,6 +272,177 @@ class Vditor extends VditorMethod {
         document.execCommand("insertHTML", false, value);
     }
 
+    public domParser = new DOMParser();
+
+    /**
+     * @description 兼容html导出格式，防止回显异常
+     * @param {string} html
+     * @returns {*}  {string}
+     * @memberof Vditor
+     */
+    public transformVditor(html: string): string {
+        let result = html;
+        // 兼容老html格式样式
+        const styleReg = /<span style="([^>]+?)">(<(.+?)>)<\/span>/g;
+        if (result.match(styleReg)) {
+        result = result.replaceAll(
+            styleReg,
+            (x: string, style: string, content: string) => {
+            if (content) {
+                const doc = this.domParser.parseFromString(content, 'text/html');
+                if (doc.body) {
+                const { textContent } = doc.body;
+                return content.replace(
+                    textContent,
+                    `<span style="${style}">${textContent}</span>`,
+                );
+                }
+            }
+            return x;
+            },
+        );
+        }
+        // 兼容标题格式
+        const headerReg = /<h([1-6])(.*?)>(.*?)<\/h[1-6]>/g;
+        if (result.match(headerReg)) {
+        result = result.replaceAll(
+            headerReg,
+            (x: string, level: string, attr: string, content: string) => {
+            if (content && !content.includes('vditor-ir__marker--heading')) {
+                return `<h${level}${attr} data-marker="${'#'.repeat(
+                Number(level),
+                )}"><span class="vditor-ir__marker vditor-ir__marker--heading" data-type="heading-marker">${'#'.repeat(
+                Number(level),
+                )} </span>${content}</h${level}>`;
+            }
+            return x;
+            },
+        );
+        }
+        // 兼容加粗
+        const boldReg = /<strong>(.*?)<\/strong>/g;
+        if (result.match(boldReg)) {
+        result = result.replaceAll(boldReg, (x: string, content: string) => {
+            if (content) {
+            return `<span data-type="strong" class="vditor-ir__node"><span class="vditor-ir__marker vditor-ir__marker--bi">**</span><strong data-newline="1">${content}</strong><span class="vditor-ir__marker vditor-ir__marker--bi">**</span></span>`;
+            }
+            return x;
+        });
+        }
+        // 兼容斜体
+        const emReg = /<em>(.*?)<\/em>/g;
+        if (result.match(emReg)) {
+        result = result.replaceAll(emReg, (x: string, content: string) => {
+            if (content) {
+            return `<span data-type="em" class="vditor-ir__node"><span class="vditor-ir__marker vditor-ir__marker--bi">*</span><em data-newline="1">${content}</em><span class="vditor-ir__marker vditor-ir__marker--bi">*</span></span>`;
+            }
+            return x;
+        });
+        }
+        // 兼容删除线
+        const sReg = /<(s|del)>(.*?)<\/(s|del)>/g;
+        if (result.match(sReg)) {
+        result = result.replaceAll(
+            sReg,
+            (x: string, attr: string, content: string) => {
+            if (content) {
+                return `<span data-type="s" class="vditor-ir__node"><span class="vditor-ir__marker">~~</span><s data-newline="1">${content}</s><span class="vditor-ir__marker">~~</span></span>`;
+            }
+            return x;
+            },
+        );
+        }
+        // 兼容行内代码
+        const codeReg = /<code>(.*?)<\/code>/g;
+        if (result.match(codeReg)) {
+        result = result.replaceAll(codeReg, (x: string, content: string) => {
+            if (content) {
+            return `<span data-type="code" class="vditor-ir__node"><span class="vditor-ir__marker">\`</span><code data-newline="1">${content}</code><span class="vditor-ir__marker">\`</span></span>`;
+            }
+            return x;
+        });
+        }
+        // 代码块转换md格式后渲染
+        const codeBlockReg = /<pre><code(.*?)>((.|[\t\r\f\n\s])*?)<\/code><\/pre>/g;
+        if (result.match(codeBlockReg)) {
+        result = result.replaceAll(
+            codeBlockReg,
+            (x: string, language: string, content: string) => {
+            if (content) {
+                let lan = 'js';
+                if (language) {
+                lan = language.replace(/class="language-(.+?)"/, '$1').trim();
+                }
+                return `\`\`\`${lan}\n${content}\`\`\`\n`;
+            }
+            return x;
+            },
+        );
+        }
+        const codeBlockReg2 =
+        /<div class="language-(.+?)">((.|[\t\r\f\n\s])*?)<\/div>/g;
+        if (result.match(codeBlockReg2)) {
+        result = result.replaceAll(
+            codeBlockReg2,
+            (x: string, language: string, content: string) => {
+            if (language && content) {
+                return `\`\`\`${language}\n${content}\`\`\`\n`;
+            }
+            return x;
+            },
+        );
+        }
+        // 兼容代办列表
+        const todoReg =
+        /<div data-w-e-type="todo"><input type="checkbox" disabled >(.*?)<\/div>/g;
+        if (result.match(todoReg)) {
+        result = result.replaceAll(todoReg, (x: string, content: string) => {
+            if (content) {
+            return `<ul data-tight="true" data-marker="*" data-block="0"><li data-marker="*" class="vditor-task"><input type="checkbox"> ${content}</li></ul>`;
+            }
+            return x;
+        });
+        }
+        // 兼容图片格式
+        const imageReg = /<img(.+?)src="(.+?)"(.*?)(\/*)>/g;
+        if (result.match(imageReg)) {
+        if (!result.includes(`class="vditor-ir__node" data-type="img"`)) {
+            result = result.replaceAll(
+            imageReg,
+            (x: string, attr: string, url: string, attr2: string) => {
+                const domParser = new DOMParser();
+                const dom = domParser.parseFromString(x, 'text/html');
+                const name =
+                dom.querySelector('img')?.getAttribute('alt') || 'image.png';
+                if (url) {
+                return `<span class="vditor-ir__node" data-type="img"><span class="vditor-ir__marker">!</span><span class="vditor-ir__marker vditor-ir__marker--bracket">[</span><span class="vditor-ir__marker vditor-ir__marker--bracket">${name}</span><span class="vditor-ir__marker vditor-ir__marker--bracket">]</span><span class="vditor-ir__marker vditor-ir__marker--paren">(</span><span class="vditor-ir__marker vditor-ir__marker--link">${url}</span><span class="vditor-ir__marker vditor-ir__marker--paren">)</span><img src="${url}"${attr}${attr2}/></span>​`;
+                }
+                return x;
+            },
+            );
+        }
+        }
+        // 兼容表格
+        const tableReg = /<table(.*?)>(.*?)<\/table>/g;
+        if (result.match(tableReg)) {
+        result = result.replaceAll(
+            tableReg,
+            (x: string, attr: string, content: string) => {
+            if (!attr.includes(`data-type="table"`)) {
+                const tableContent = content.match(/<tr>(.+?)<\/tr>/g);
+                if (tableContent?.length) {
+                const header = `<thead>${tableContent[0]}</thead>`;
+                const body = `<tbody>${tableContent.slice(1).join('')}</tbody>`;
+                return `<table data-block="0" data-type="table">${header}${body}</table>`;
+                }
+            }
+            return x;
+            },
+        );
+        }
+        return result;
+    }
+
     /** 在焦点处插入内容，并默认进行 Markdown 渲染 */
     public insertValue(value: string, render = true) {
         const range = getEditorRange(this.vditor);
@@ -276,7 +450,7 @@ class Vditor extends VditorMethod {
         // https://github.com/Vanessa219/vditor/issues/716
         // https://github.com/Vanessa219/vditor/issues/917
         const tmpElement = document.createElement("template");
-        tmpElement.innerHTML = value;
+        tmpElement.innerHTML = this.transformVditor(value);
         range.insertNode(tmpElement.content.cloneNode(true));
         range.collapse(false);
         if (this.vditor.currentMode === "sv") {
@@ -313,6 +487,12 @@ class Vditor extends VditorMethod {
 
     public getEditorRange() {
         return getEditorRange(this.vditor);
+    }
+
+    public createdToolbar(id: string, toolbar: IMenuItem[]) {
+        const getOptions = new Options({});
+        const items = getOptions.mergeToolbar(toolbar)
+        return new Toolbar(this.vditor, id, items);
     }
 
     /** 在焦点处插入 Markdown */

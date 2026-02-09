@@ -792,6 +792,8 @@ interface IOptions {
     }[],
     renderAfter?: () => void;
 
+    hidePanel?: (panels: string[]) => void;
+
     /** 编辑器异步渲染完成后的回调方法 */
     after?(): void;
 
@@ -846,6 +848,7 @@ interface IVditor {
     originalInnerHTML: string;
     lute: Lute;
     currentMode: "sv" | "wysiwyg" | "ir";
+    lastRange?: Range;
     devtools?: {
         element: HTMLDivElement,
         renderEchart(vditor: IVditor): void,
