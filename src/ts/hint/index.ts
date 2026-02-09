@@ -47,7 +47,7 @@ export class Hint {
                     range.startOffset
                 ) || "";
         }
-        if (range.startContainer.nodeType === 1) {
+        if (range.startContainer.nodeType === 1 && currentLineValue) {
             const innerHTML = (range.startContainer as HTMLElement).innerHTML;
             if (currentLineValue.startsWith('@')) {
                 const html = innerHTML.replaceAll(
