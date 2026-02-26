@@ -102,16 +102,24 @@ export class Toolbar {
     public calcEllipsisToolbar(vditor: IVditor) {
         const parentElement = vditor.element;
         const totalWidth = parentElement.offsetWidth - this.offsetWidth;
-        const toolbars = [...this.originToolbar].filter((x: any) => x.name !== "|");
-        const count = Math.floor(totalWidth / 32) -1;
-        const moreToolbar = toolbars.splice(count, toolbars.length - count);
-        if (moreToolbar.length) {
-            const more = {
-                name: "more",
-                icon: '<svg><use xlink:href="#vditor-icon-more"></use></svg>',
-                toolbar: moreToolbar,
+        const toolbars = [...this.originToolbar];
+        let count = Math.floor(totalWidth / 32);
+        const dividerItems = toolbars.slice(0, count).filter((x: any) => x.name === "|");
+        const extraWidth = totalWidth - count * 32 + dividerItems.length * 16;
+        count += Math.floor(extraWidth / 32);
+        // 由于最后一项存在分隔项，此处需要减一
+        if (count < toolbars.length - 1) {
+            // 更多菜单项
+            count -= 1;
+            const moreToolbar = toolbars.splice(count, toolbars.length - count);
+            if (moreToolbar.length) {
+                const more = {
+                    name: "more",
+                    icon: '<svg><use xlink:href="#vditor-icon-more"></use></svg>',
+                    toolbar: moreToolbar.filter(x => x.name !== '|'),
+                }
+                toolbars.push(more);
             }
-            toolbars.push(more);
         }
         this.initToolbar(vditor, toolbars);
     }
