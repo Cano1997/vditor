@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Constants } from "../constants";
 import {getEventName} from "../util/compatibility";
-import { getEditorRange } from "../util/selection";
+import { StyleManager } from "../util/styleManager";
 import {MenuItem} from "./MenuItem";
 import {hidePanel, toggleSubMenu} from "./setToolbar";
 
 export class BgColor extends MenuItem {
     public element: HTMLElement;
+
+    // 样式管理器
+    public styleManager = new StyleManager();
 
     constructor(vditor: IVditor, menuItem: IMenuItem) {
         super(vditor, menuItem);
@@ -92,127 +94,17 @@ export class BgColor extends MenuItem {
         panelElement.addEventListener(getEventName(), (event: MouseEvent & { target: HTMLElement }) => {
             const element = event.target;
             const color = element.getAttribute("data-value");
-            const range = getEditorRange(vditor);
-            const nodes = this.getRangeNodes(range);
-            const text = range.toString();
-            // 默认颜色
             if (color === '0') {
-                nodes.forEach((node, index) => {
-                    const textContent = node.textContent;
-                    const style = node.getAttribute('style');
-                    const styles = style ? style.split(';') : [];
-                    const styleIndex = styles.findIndex(item => item.includes('background-color'));
-                    if (styleIndex > -1) {
-                        styles.splice(styleIndex, 1);
-                    }
-                    if (!text) {
-                        node.outerHTML = `<span style="${styles.join(';')}">${textContent}</span>`;
-                    } else if (index === 0) {
-                        let html = `${textContent.slice(range.startOffset)}`;
-                        if (styles.length) {
-                            html = `<span style="${styles.join(';')}">${html}</span>`;
-                        }
-                        node.textContent = textContent.slice(0, range.startOffset);
-                        node.insertAdjacentHTML('afterend', html);
-                    } else if (index === nodes.length - 1) {
-                        let html = textContent.slice(0, range.endOffset);
-                        if (styles.length) {
-                            html = `<span style="${styles.join(';')}">${html}</span>`;
-                        }
-                        node.textContent = textContent.slice(range.endOffset);
-                        node.insertAdjacentHTML('beforebegin', html);
-                    } else {
-                        let html = node.textContent;
-                        if (styles.length) {
-                            html = `<span style="${styles.join(';')}">${html}</span>`;
-                        }
-                        node.insertAdjacentHTML('beforebegin', html);
-                        node.textContent = '';
-                    }
-                    // 节点不存在则删除
-                    if (!node.textContent) {
-                        node.remove();
-                    }
-                });
+                this.styleManager.clearStyle(
+                    vditor,
+                    "background-color"
+                );
             } else {
-                if (nodes.length > 1) {
-                    nodes.forEach((node, index) => {
-                        const style = node.getAttribute('style');
-                        const styles = style ? style.split(';') : [];
-                        const styleIndex = styles.findIndex(item => item.includes('background-color'));
-                        if (styleIndex > -1) {
-                            styles.splice(styleIndex, 1);
-                        }
-                        const textContent = node.textContent;
-                        // 在第一个节点后添加颜色节点
-                        if (index === 0) {
-                            let html = `${textContent.slice(range.startOffset)}`;
-                            if (styles.length) {
-                                html = `<span style="background-color: ${color};${styles.join(';')}">${html}</span>`;
-                            }
-                            node.insertAdjacentHTML('afterend', html);
-                            node.textContent = node.textContent.slice(0, range.startOffset);
-                        } else if (index === nodes.length - 1) {
-                            let html = textContent.slice(0, range.endOffset);
-                            if (styles.length) {
-                                html = `<span style="background-color: ${color};${styles.join(';')}">${html}</span>`;
-                            }
-                            node.insertAdjacentHTML('beforebegin', html);
-                            node.textContent = node.textContent.slice(range.endOffset);
-                        } else {
-                            let html = node.textContent;
-                            if (styles.length) {
-                                html = `<span style="background-color: ${color};${styles.join(';')}">${html}</span>`;
-                            }
-                            node.insertAdjacentHTML('beforebegin', html);
-                            node.textContent = '';
-                        }
-                        // 节点不存在则删除
-                        if (!node.textContent) {
-                            node.remove();
-                        }
-                    })
-                } else {
-                    const node = nodes[0];
-                    const style = node.getAttribute('style');
-                    const styles = style ? style.split(';') : [];
-                    const styleIndex = styles.findIndex(item => item.includes('background-color'));
-                    if (styleIndex > -1) {
-                        styles.splice(styleIndex, 1);
-                    }
-                    const curColor = node.style.backgroundColor;
-                    const textContent = node.textContent;
-                    // 添加颜色
-                    if (!curColor) {
-                        if (textContent) {
-                            node.innerHTML = node.innerHTML.replace(textContent, `<span style="background-color: ${color};${styles.join(';')}">${textContent}</span>`);
-                        } else {
-                            node.innerHTML = `<span style="background-color: ${color}">${Constants.ZWSP}</span>`;
-                        }
-                    } else {
-                        // 修改颜色
-                        if (!text) {
-                            node.outerHTML = `<span style="background-color: ${color};${styles.join(';')}">${textContent}</span>`;
-                        } else if (textContent === text) {
-                            node.insertAdjacentHTML('beforebegin', `<span style="background-color: ${color};${styles.join(';')}">${text}</span>`);
-                            node.remove();
-                        } else if (textContent.includes(text)) {
-                            // 节点包含选中文本时，添加文本
-                            if (textContent.startsWith(text)) {
-                                node.insertAdjacentHTML('beforebegin', `<span style="background-color: ${color};${styles.join(';')}">${text}</span>`);
-                                node.innerHTML = node.innerHTML.replace(text, '');
-                            } else if (textContent.endsWith(text)) {
-                                node.insertAdjacentHTML('afterend', `<span style="background-color: ${color};${styles.join(';')}">${text}</span>`);
-                                node.innerHTML = node.innerHTML.replace(text, '');
-                            } else {
-                                const [ textBefore, textAfter ] = textContent.split(text);
-                                node.insertAdjacentHTML('beforebegin', `<span style="background-color: ${curColor};${styles.join(';')}">${textBefore}</span>`);
-                                node.insertAdjacentHTML('afterend', `<span style="background-color: ${curColor};${styles.join(';')}">${textAfter}</span>`);
-                                node.innerHTML = `<span style="background-color: ${color};${styles.join(';')}">${text}</span>`;
-                            }
-                        }
-                    }
-                }
+                this.styleManager.setStyle(
+                    vditor,
+                    "background-color",
+                    color
+                );
             }
             
             hidePanel(vditor, ["subToolbar"]);
@@ -223,21 +115,4 @@ export class BgColor extends MenuItem {
         toggleSubMenu(vditor, panelElement, actionBtn, menuItem.level);
     }
 
-    getRangeNodes(range: Range): HTMLElement[] {
-        const contents = range.cloneContents();
-        let element: any = range.startContainer;
-        if (element.nodeType === 3) {
-            element = element.parentElement;
-        }
-        if (contents.children.length > 1) {
-            const result = [];
-            for (let i = 0; i < contents.children.length; i++) {
-                result.push(element);
-                element = element.nextElementSibling as any;
-            }
-            return result;
-        } else {
-            return [element];
-        }
-    }
 }
