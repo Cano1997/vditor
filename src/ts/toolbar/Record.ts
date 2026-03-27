@@ -17,6 +17,10 @@ export class Record extends MenuItem {
             if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
                 return;
             }
+            if (!navigator.mediaDevices) {
+                vditor.tip.show('录音权限要求安全上下文（HTTPS）, 请确认浏览器地址是否为HTTPS环境');
+                return;
+            }
             const editorElement = vditor[vditor.currentMode].element;
             if (!mediaRecorder) {
                 navigator.mediaDevices.getUserMedia({audio: true}).then((mediaStream: MediaStream) => {
