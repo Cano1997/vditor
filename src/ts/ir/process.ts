@@ -78,6 +78,41 @@ export const processAfterRender = (vditor: IVditor, options = {
     }, vditor.options.undoDelay);
 };
 
+// 删除 span 标签，保留文本
+export const unwrap = (element: HTMLElement) => {
+    const parent =
+        element.parentNode;
+    if (!parent) return;
+    while (
+        element.firstChild
+    ) {
+        parent.insertBefore(
+            element.firstChild,
+            element
+        );
+
+    }
+    parent.removeChild(element);
+}
+
+// 格式化标题元素，清除其所有样式
+export const formatHeader = (headingElement: HTMLElement) => {
+    const spans = headingElement.querySelectorAll("span");
+    spans.forEach(span => {
+        if (
+            !span.textContent
+        ) {
+            span.remove();
+            return;
+        }
+        if (
+            span.classList.length === 0
+        ) {
+            unwrap(span);
+        }
+    });
+}
+
 export const processHeading = (vditor: IVditor, value: string) => {
     const range = getEditorRange(vditor);
     const contents = range.cloneContents();
@@ -90,6 +125,7 @@ export const processHeading = (vditor: IVditor, value: string) => {
                 if (headingMarkerElement) {
                     headingMarkerElement.innerHTML = value;
                 } else {
+                    formatHeader(element);
                     element.insertAdjacentText("afterbegin", value);
                 }
             }
@@ -105,6 +141,7 @@ export const processHeading = (vditor: IVditor, value: string) => {
             if (headingMarkerElement) {
                 headingMarkerElement.innerHTML = value;
             } else {
+                formatHeader(headingElement);
                 headingElement.insertAdjacentText("afterbegin", value);
                 range.selectNodeContents(headingElement);
                 range.collapse(false);
