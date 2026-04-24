@@ -79,7 +79,7 @@ window.VditorI18n = {
   'undo': '撤销',
   'up': '上',
   'update': '更新',
-  'upload': '上传图片或文件',
+  'upload': '上传图片',
   'uploadError': '上传错误',
   'uploading': '上传中...',
   'wysiwyg': '所见即所得',

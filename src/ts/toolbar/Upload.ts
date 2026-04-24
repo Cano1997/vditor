@@ -14,9 +14,9 @@ export class Upload extends MenuItem {
             inputHTML += ` accept="${vditor.options.upload.accept}"`;
         }
         if (menuItem.level === 2) {
-            this.element.children[0].innerHTML = `<button data-type="${menuItem.name}">上传图片或文件</button>${inputHTML}>`;
+            this.element.children[0].innerHTML = `<label data-type="${menuItem.name}">${window.VditorI18n.upload}${inputHTML} hidden></label>`;
         } else {
-            this.element.children[0].innerHTML = `${(menuItem.icon)}${inputHTML}>`;
+            this.element.children[0].innerHTML = `<label>${(menuItem.icon)}${inputHTML} hidden></label>`;
         }
         this._bindEvent(vditor);
     }
