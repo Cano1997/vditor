@@ -37,6 +37,7 @@ import {input} from "./ts/wysiwyg/input";
 import {renderDomByMd} from "./ts/wysiwyg/renderDomByMd";
 import {execAfterRender, insertEmptyBlock} from "./ts/util/fixBrowserBehavior";
 import {accessLocalStorage} from "./ts/util/compatibility";
+import { VditorVirtualScroll } from "./Vditor-virtual-scroll";
 
 class Vditor extends VditorMethod {
     public readonly version: string;
@@ -509,6 +510,22 @@ class Vditor extends VditorMethod {
         execAfterRender(this.vditor);
     }
 
+    // 将 HTML 字符串解析为顶层子节点数组
+    public parseHTMLNodes(htmlString: string): Element[] {
+        const template = document.createElement('template');
+        template.innerHTML = htmlString;
+        return Array.from(template.content.children);
+    }
+
+    // 按指定节点数分块
+    public splitNodesByCount(nodes: Element[], chunkSize: number): Element[][] {
+        const chunks: Element[][] = [];
+        for (let i = 0; i < nodes.length; i += chunkSize) {
+            chunks.push(nodes.slice(i, i + chunkSize));
+        }
+        return chunks;
+    }
+
     /** 设置编辑器内容 */
     public setValue(markdown: string, clearStack = false) {
         if (this.vditor.currentMode === "sv") {
@@ -525,7 +542,27 @@ class Vditor extends VditorMethod {
                 enableInput: false,
             });
         } else {
-            this.vditor.ir.element.innerHTML = this.vditor.lute.Md2VditorIRDOM(markdown);
+            const { splitChunk, splitChunkCount = 20 } = this.vditor.options;
+            if (splitChunk) {
+                const htmlString = this.vditor.lute.Md2VditorIRDOM(markdown);
+                const nodes = this.parseHTMLNodes(htmlString);
+                const nodeGroups = this.splitNodesByCount(nodes, splitChunkCount);
+                const container = this.vditor.ir.element;
+
+                const chunks = nodeGroups.map((nodes, index) => ({
+                    index,
+                    nodes,
+                    height: 0,
+                    rendered: false,
+                }));
+
+                // Step3：初始化虚拟滚动
+                const vs = new VditorVirtualScroll(container, chunks);
+                vs.init();
+            } else {
+                this.vditor.ir.element.innerHTML = this.vditor.lute.Md2VditorIRDOM(markdown);
+            }
+            
             this.vditor.ir.element
                 .querySelectorAll(".vditor-ir__preview[data-render='2']")
                 .forEach((item: HTMLElement) => {

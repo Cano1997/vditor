@@ -699,6 +699,10 @@ interface IOptions {
     width?: number | string;
     /** 输入区域为空时的提示。默认值: '' */
     placeholder?: string;
+    // 是否启用分块绘制
+    splitChunk?: boolean;
+    // 分块数量
+    splitChunkCount?: number;
     /** 多语言。默认值: 'zh_CN' */
     lang?: (keyof II18n);
     /** 国际化, 自定义语言。优先级低于lang */
