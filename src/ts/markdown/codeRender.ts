@@ -3,8 +3,7 @@ import {Constants} from "../constants";
 
 export const codeRender = (element: HTMLElement, option?: IHljs) => {
     Array.from<HTMLElement>(element.querySelectorAll("pre > code")).filter((e, index) => {
-        if (e.parentElement.classList.contains("vditor-wysiwyg__pre") ||
-            e.parentElement.classList.contains("vditor-ir__marker--pre")) {
+        if (e.parentElement.classList.contains("vditor-wysiwyg__pre")) {
             return false;
         }
         if (e.classList.contains("language-mermaid") || e.classList.contains("language-flowchart") ||
