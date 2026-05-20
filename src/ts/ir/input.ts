@@ -12,6 +12,7 @@ import {getSelectPosition, setRangeByWbr} from "../util/selection";
 import {renderToc} from "../util/toc";
 import {processAfterRender} from "./process";
 import {getMarkdown} from "../markdown/getMarkdown";
+import { handleCodeblock } from "../util/code-helper";
 
 export const input = (vditor: IVditor, range: Range, ignoreSpace = false, event?: InputEvent) => {
     let blockElement = hasClosestBlock(range.startContainer);
@@ -180,7 +181,7 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false, event?
     log("SpinVditorIRDOM", html, "argument", vditor.options.debugger);
     html = vditor.lute.SpinVditorIRDOM(html);
     log("SpinVditorIRDOM", html, "result", vditor.options.debugger);
-
+    // html = handleCodeblock(html);
     if (isIRElement) {
         blockElement.innerHTML = html;
     } else {
@@ -237,6 +238,12 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false, event?
     vditor.ir.element.querySelectorAll(".vditor-ir__preview[data-render='2']").forEach((item: HTMLElement) => {
         processCodeRender(item, vditor);
     });
+    // 单独解析代码块节点
+    // vditor.ir.element
+    // .querySelectorAll(".vditor-ir__node[data-type='code-block'] pre.vditor-ir__marker--pre")
+    // .forEach((item: HTMLElement) => {
+    //     processCodeRender(item, vditor);
+    // });
 
     renderToc(vditor);
 

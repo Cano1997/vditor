@@ -38,6 +38,7 @@ import {renderDomByMd} from "./ts/wysiwyg/renderDomByMd";
 import {execAfterRender, insertEmptyBlock} from "./ts/util/fixBrowserBehavior";
 import {accessLocalStorage} from "./ts/util/compatibility";
 import { VditorVirtualScroll } from "./Vditor-virtual-scroll";
+import { handleCodeblock } from "./ts/util/code-helper";
 
 class Vditor extends VditorMethod {
     public readonly version: string;
@@ -526,22 +527,11 @@ class Vditor extends VditorMethod {
         return chunks;
     }
 
-    // 处理代码块
-    public handleCodeblock(htmlString: string) {
-        const template = document.createElement("template");
-        template.innerHTML = htmlString;
-        const nodes = template.content.querySelectorAll('div[data-type="code-block"] pre.vditor-ir__preview');
-        nodes.forEach(node => {
-            node.remove();
-        })
-        return template.innerHTML;
-    }
-
     /** 设置编辑器内容 */
     public setValue(markdown: string, clearStack = false) {
         if (this.vditor.currentMode === "sv") {
             let htmlString = this.vditor.lute.SpinVditorSVDOM(markdown);
-            htmlString = this.handleCodeblock(htmlString);
+            htmlString = handleCodeblock(htmlString);
             this.vditor.sv.element.innerHTML = `<div data-block='0'>${htmlString}</div>`;
             processSVAfterRender(this.vditor, {
                 enableAddUndoStack: true,
@@ -557,7 +547,7 @@ class Vditor extends VditorMethod {
         } else {
             const { splitChunk, splitChunkCount = 20 } = this.vditor.options;
             let htmlString = this.vditor.lute.Md2VditorIRDOM(markdown);
-            htmlString = this.handleCodeblock(htmlString);
+            htmlString = handleCodeblock(htmlString);
             if (splitChunk) {
                 const nodes = this.parseHTMLNodes(htmlString);
                 const nodeGroups = this.splitNodesByCount(nodes, splitChunkCount);
