@@ -37,7 +37,6 @@ import {input} from "./ts/wysiwyg/input";
 import {renderDomByMd} from "./ts/wysiwyg/renderDomByMd";
 import {execAfterRender, insertEmptyBlock} from "./ts/util/fixBrowserBehavior";
 import {accessLocalStorage} from "./ts/util/compatibility";
-import { VditorVirtualScroll } from "./Vditor-virtual-scroll";
 import { handleCodeblock } from "./ts/util/code-helper";
 
 class Vditor extends VditorMethod {
@@ -545,36 +544,12 @@ class Vditor extends VditorMethod {
                 enableInput: false,
             });
         } else {
-            const { splitChunk, splitChunkCount = 20 } = this.vditor.options;
             let htmlString = this.vditor.lute.Md2VditorIRDOM(markdown);
             htmlString = handleCodeblock(htmlString);
-            if (splitChunk) {
-                const nodes = this.parseHTMLNodes(htmlString);
-                const nodeGroups = this.splitNodesByCount(nodes, splitChunkCount);
-                const container = this.vditor.ir.element;
-
-                const chunks = nodeGroups.map((nodes, index) => ({
-                    index,
-                    nodes,
-                    height: 0,
-                    rendered: false,
-                }));
-
-                // Step3：初始化虚拟滚动
-                const vs = new VditorVirtualScroll(container, chunks);
-                vs.init();
-            } else {
-                this.vditor.ir.element.innerHTML = htmlString;
-            }
+            this.vditor.ir.element.innerHTML = htmlString;
             
             this.vditor.ir.element
                 .querySelectorAll(".vditor-ir__preview[data-render='2']")
-                .forEach((item: HTMLElement) => {
-                    processCodeRender(item, this.vditor);
-                });
-            // 单独解析代码块节点
-            this.vditor.ir.element
-                .querySelectorAll(".vditor-ir__node[data-type='code-block'] pre.vditor-ir__marker--pre")
                 .forEach((item: HTMLElement) => {
                     processCodeRender(item, this.vditor);
                 });

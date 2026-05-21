@@ -3,7 +3,10 @@ export const handleCodeblock = (htmlString: string) => {
     template.innerHTML = htmlString;
     const nodes = template.content.querySelectorAll('div[data-type="code-block"] pre.vditor-ir__preview');
     nodes.forEach(node => {
-        node.remove();
+        const codeNode = node.querySelector('code');
+        if (codeNode) {
+            codeNode.innerHTML = '';
+        }
     })
     return template.innerHTML;
 }

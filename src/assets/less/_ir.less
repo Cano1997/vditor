@@ -13,6 +13,7 @@
     &[data-type="math-block"]:before,
     &[data-type="math-block"]:after {
       content: ' ';
+      font-size: 0;
       color: var(--second-color);
     }
 
@@ -102,6 +103,7 @@
       &[data-type="code-block"]:before,
       &[data-type="code-block"]:after {
         content: '```';
+        font-size: inherit;
       }
 
       &[data-type="yaml-front-matter"]:before,
@@ -166,6 +168,28 @@
 
     pre {
       margin: 0;
+    }
+
+    .vditor-ir__node[data-type="code-block"] .vditor-ir__preview {
+      position: absolute;
+      right: 0;
+      top: 0;
+      code {
+        display: none;
+      }
+    }
+    .vditor-ir__node--expand[data-type="code-block"] .vditor-ir__preview {
+      top: 20px;
+    }
+
+    .vditor-ir__node[data-type="code-block"]:hover {
+      .vditor-copy {
+        display: block;
+      }
+    }
+
+    .vditor-ir__node[data-type="code-block"] .vditor-ir__marker--pre code {
+      max-height: 1000px;
     }
   }
 

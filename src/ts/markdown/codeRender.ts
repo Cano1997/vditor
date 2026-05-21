@@ -20,7 +20,8 @@ export const codeRender = (element: HTMLElement, option?: IHljs) => {
 
     Array.from<HTMLElement>(element.querySelectorAll("pre > code"))
         .filter((e, index) => {
-            if (e.parentElement.classList.contains("vditor-wysiwyg__pre")) {
+            if (e.parentElement.classList.contains("vditor-wysiwyg__pre") ||
+                e.parentElement.classList.contains("vditor-ir__marker--pre")) {
                 return false;
             }
             if (
@@ -73,9 +74,9 @@ class="vditor-tooltipped vditor-tooltipped__w">${iconHTML}</span>`;
                 (copy as HTMLElement).addEventListener("click", (event: MouseEvent) => {
                     event.stopPropagation();
                     if (!textarea.value) {
-                        const codeElement = copy.parentElement!.parentElement!.querySelector("code");
+                        const codeElement = copy.parentElement!.parentElement!.parentElement!.querySelector("pre.vditor-ir__marker--pre code");
                         if (codeElement) {
-                            const text = getCodeText(codeElement);
+                            const text = getCodeText(codeElement as HTMLElement);
                             textarea.value = code160to32(text);
                         }
                     }
