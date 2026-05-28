@@ -148,6 +148,86 @@
     &[contenteditable="false"] {
       opacity: 0.3;
       cursor: not-allowed;
+      .vditor-ir__node--mermaid {
+        .vditor-ir__marker--pre {
+          display: none;
+        }
+        >span {
+          display: none;
+        }
+        &::before,&::after {
+          display: none;
+        }
+      }
+      .vditor-ir__node--math {
+        .vditor-ir__marker--pre {
+          display: none;
+        }
+      }
+      .vditor-ir__node--mindmap {
+        .vditor-ir__marker--pre {
+          display: none;
+        }
+        >span {
+          display: none;
+        }
+        &::before,&::after {
+          display: none;
+        }
+      }
+      .vditor-ir__node--echarts {
+        .vditor-ir__marker--pre {
+          display: none;
+        }
+        >span {
+          display: none;
+        }
+        &::before,&::after {
+          display: none;
+        }
+      }
+      .vditor-ir__node--abc {
+        .vditor-ir__marker--pre {
+          display: none;
+        }
+        >span {
+          display: none;
+        }
+        &::before,&::after {
+          display: none;
+        }
+      }
+      .vditor-ir__node--graphviz {
+        .vditor-ir__marker--pre {
+          display: none;
+        }
+        >span {
+          display: none;
+        }
+        &::before,&::after {
+          display: none;
+        }
+      }
+      .vditor-ir__node--flowchart {
+        .vditor-ir__marker--pre {
+          display: none;
+        }
+        >span {
+          display: none;
+        }
+        &::before,&::after {
+          display: none;
+        }
+      }
+    }
+
+    &[contenteditable="true"] {
+      // 编辑态流程图禁止跳转
+      .vditor-ir__node--mermaid {
+        .language-mermaid a {
+          pointer-events: none;
+        }
+      }
     }
 
     &:empty::before {
@@ -183,6 +263,28 @@
     }
     .vditor-ir__node--expand[data-type="code-block"] .vditor-ir__preview {
       top: 20px;
+    }
+
+    .vditor-ir__node.vditor-ir__node--mermaid[data-type="code-block"] .vditor-ir__preview {
+      position: static;
+    }
+    .vditor-ir__node.vditor-ir__node--math[data-type="code-block"] .vditor-ir__preview {
+      position: static;
+    }
+    .vditor-ir__node.vditor-ir__node--mindmap[data-type="code-block"] .vditor-ir__preview {
+      position: static;
+    }
+    .vditor-ir__node.vditor-ir__node--echarts[data-type="code-block"] .vditor-ir__preview {
+      position: static;
+    }
+    .vditor-ir__node.vditor-ir__node--abc[data-type="code-block"] .vditor-ir__preview {
+      position: static;
+    }
+    .vditor-ir__node.vditor-ir__node--graphviz[data-type="code-block"] .vditor-ir__preview {
+      position: static;
+    }
+    .vditor-ir__node.vditor-ir__node--flowchart[data-type="code-block"] .vditor-ir__preview {
+      position: static;
     }
 
     .vditor-ir__node[data-type="code-block"]:hover {
