@@ -55,6 +55,18 @@ export const mermaidRender = (element: (HTMLElement | Document) = document, cdn 
 <div style="text-align: left"><small>${e.message.replace(/\n/, "<br>")}</small></div>`;
                 errorElement.parentElement.remove();
             }
+            const linkElements = item.querySelectorAll("a");
+            for (let i = 0; i < linkElements.length; i++) {
+                const linkElement = linkElements[i];
+                linkElement.addEventListener("click", (event) => {
+                    if (vditor && vditor.options.mermaid.link) {
+                        const bol = vditor.options.mermaid.link(event.currentTarget as HTMLElement);
+                        if (bol) {
+                            event.preventDefault();
+                        }
+                    }
+                });
+            }
             item.setAttribute("data-processed", "true");
         }
         if (vditor && vditor.options.renderAfter) {

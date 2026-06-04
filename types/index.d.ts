@@ -764,6 +764,10 @@ interface IOptions {
         /** 图片预览处理 */
         preview?: (bom: Element) => void;
     },
+    // 流程图
+    mermaid?: {
+        link?: (dom: HTMLElement) => boolean;
+    };
     /** @link https://ld246.com/article/1549638745630#options-hint */
     hint?: IHint;
     /** @link https://ld246.com/article/1549638745630#options-toolbarConfig */
