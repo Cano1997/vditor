@@ -4,7 +4,9 @@ export const handleCodeblock = (htmlString: string) => {
     const container = template.content
         .querySelectorAll('div[data-type="code-block"]');
     container.forEach(item => {
-        if (!item.classList.contains("vditor-ir__node--echarts")) {
+        // diff节点不解析
+        const diffNode = item.querySelector('code.language-diff');
+        if (!item.classList.contains("vditor-ir__node--echarts") && !diffNode) {
             const nodes = item.querySelectorAll(
                 'div[data-type="code-block"] pre.vditor-ir__preview'
             );

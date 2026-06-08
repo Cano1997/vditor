@@ -324,6 +324,54 @@
     .vditor-ir__node[data-type="code-block"] .vditor-ir__marker--pre code {
       max-height: 1000px;
     }
+
+    // 对比代码块
+    .vditor-ir__node.vditor-ir__node--diff[data-type='code-block'] {
+      .vditor-ir__marker--pre {
+        width: 0;
+        height: 0;
+      }
+
+      .vditor-ir__preview {
+        position: static;
+
+        code {
+          display: block;
+          background: #f8f8f8;
+
+          >span {
+              display: inline-block;
+              width: 100%;
+          }
+        }
+
+        .hljs-addition {
+          color: #fff;
+          background-color: #3bb346;
+        }
+
+        .hljs-deletion {
+          color: #fff;
+          background-color: #f9391f;
+        }
+      }
+
+      &.vditor-ir__node--expand {
+          .vditor-ir__preview {
+              display: none;
+          }
+      }
+    }
+    &[contenteditable="false"] {
+      .vditor-ir__node.vditor-ir__node--diff[data-type='code-block'] {
+        .vditor-ir__marker--pre {
+          display: none;
+        }
+        .vditor-ir__preview {
+          display: block !important;
+        }
+      }
+    }
   }
 
   hr {
